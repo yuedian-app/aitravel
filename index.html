@@ -12,29 +12,64 @@
             box-sizing: border-box
         }
 
+        html {
+            overflow-y: scroll;
+        }
+
         body {
             background: #eef2f7;
             font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
         }
 
         .app {
+            width: 100%;
             max-width: 430px;
-            min-height: 100vh;
             margin: 0 auto;
-            background: #F6F8FA;
+            background: #F5F7FB;
             position: relative;
-            box-shadow: 0 0 20px rgba(0, 0, 0, .08);
+            min-height: 100dvh;
         }
 
+        /* 页面容器 */
         .page {
-            padding-bottom: 80px
+            display: none;
+            min-height: 100vh;
+            padding-bottom: 80px;
+            background: #F5F7FB;
+        }
+
+        .active-page {
+            display: block;
+            width: 100%;
         }
 
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 12px 4px;
+            padding: 12px 15px 2px;
+        }
+
+        .sub-header {
+            position: relative;
+            height: 52px;
+            background: #F5F7FB;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sub-content {
+            padding: 0 14px 90px;
+        }
+
+        .sub-header-mine {
+            position: relative;
+            height: 0px;
+            background: #F5F7FB;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .location {
@@ -88,21 +123,27 @@
             background: #ffffff;
             border-radius: 999px;
             padding: 10px 16px;
-            font-size: 14px;
+            font-size: 12px;
             color: #475569;
         }
 
         .car-item.active {
-            background: #cedafc;
+            background: #e1e8fa;
             color: #000000;
         }
 
         .rescue-card {
+            cursor: pointer;
+            transition: .2s;
             background: linear-gradient(120deg, #f37442, #f7e47c);
             color: #fff;
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
+
+        .rescue-card:active {
+            transform: scale(.98);
         }
 
         .rescue-title {
@@ -137,11 +178,13 @@
         }
 
         .service-item {
-            text-align: center
+            text-align: center;
+            cursor: pointer;
+            transition: .15s;
         }
 
-        .service-icon {
-            font-size: 28px
+        .service-item:active {
+            transform: scale(.95);
         }
 
         .service-item span {
@@ -149,6 +192,18 @@
             margin-top: 8px;
             font-size: 13px;
             color: #475569;
+        }
+
+        .service-icon {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto;
+            border-radius: 50%;
+            background: #F3F8FF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
         }
 
         .vehicle-name {
@@ -185,87 +240,1276 @@
             margin-bottom: 8px
         }
 
+        /* 底部导航 */
         .bottom-nav {
-            position: fixed;
+            position: absolute;
+            left: 0;
+            right: 0;
             bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
             width: 100%;
-            max-width: 430px;
-            height: 64px;
-            background: #fff;
-            border-top: 1px solid #f0f0f0;
+            height: 60px;
             display: flex;
+            z-index: 999;
             padding-bottom: env(safe-area-inset-bottom);
+            background: rgba(255, 255, 255, .88);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, .5);
+            box-shadow:
+                0 -1px 12px rgba(0, 0, 0, .04);
         }
 
         .nav-item {
             flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            color: #999;
+            justify-content: center;
+            color: #999999;
             font-size: 11px;
+            transition: all .2s ease;
         }
 
         .nav-item.active {
             color: #1677FF;
-            font-weight: 600;
         }
 
         .nav-icon {
-            font-size: 22px;
+            font-size: 20px;
             margin-bottom: 2px;
+            line-height: 1;
+        }
+
+        .page-title {
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .return-back {
+            position: absolute;
+            left: 16px;
+            font-size: 20px;
+        }
+
+        .travel-map {
+            height: 220px;
+            margin: 0 14px 14px 14px;
+            border-radius: 20px;
+            background:
+                linear-gradient(135deg,
+                    #dbeafe,
+                    #bfdbfe);
+            overflow: hidden;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 20px;
+        }
+
+        .map-tip {
+            background: #fff;
+            padding: 10px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            box-shadow:
+                0 2px 10px rgba(0, 0, 0, .08);
+        }
+
+        .travel-panel {
+            margin: 14px;
+            background: #fff;
+            border-radius: 20px;
+            padding: 18px;
+        }
+
+        .location-card {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 12px;
+        }
+
+        .location-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+        }
+
+        .dot-start {
+            width: 10px;
+            height: 10px;
+            background: #22c55e;
+            border-radius: 50%;
+        }
+
+        .dot-end {
+            width: 10px;
+            height: 10px;
+            background: #ef4444;
+            border-radius: 50%;
+        }
+
+        .placeholder {
+            color: #94a3b8;
+        }
+
+        .car-type-list {
+            margin-top: 18px;
+        }
+
+        .car-type-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .car-type-item.active {
+            color: #1677FF;
+        }
+
+        .car-desc {
+            margin-top: 4px;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .car-price {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .energy-card {
+            margin-top: 16px;
+            background: #EAF3FF;
+            color: #1677FF;
+            padding: 14px;
+            border-radius: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .energy-card span {
+            font-size: 12px;
+        }
+
+        .call-car-btn {
+            margin-top: 20px;
+            height: 50px;
+            background: #1677FF;
+            color: #fff;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        /* 等待接驾页 */
+        .wait-status-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            margin-bottom: 14px;
+        }
+
+        .wait-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .wait-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .wait-desc {
+            margin-top: 8px;
+            color: #64748B;
+            font-size: 14px;
+        }
+
+        .trip-info {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            color: #334155;
+            margin-bottom: 14px;
+        }
+
+        .trip-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 15px;
+        }
+
+        .trip-price strong {
+            color: #1677FF;
+            font-size: 22px;
+        }
+
+        .nearby-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #F1F5F9;
+        }
+
+        .nearby-item:last-child {
+            border-bottom: none;
+        }
+
+        .nearby-item span {
+            color: #64748B;
+        }
+
+        .energy-match-card {
+            background: #EAF3FF;
+            border-radius: 20px;
+            padding: 16px;
+            margin: 14px 0;
+        }
+
+        .energy-title {
+            color: #1677FF;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .energy-tags {
+            display: flex;
+            gap: 10px;
+        }
+
+        .energy-tags span {
+            background: #fff;
+            color: #1677FF;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+        }
+
+        .wait-btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .simulate-btn {
+            height: 50px;
+            background: #1677FF;
+            color: #fff;
+            border-radius: 14px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+        }
+
+        .cancel-btn {
+            height: 50px;
+            background: #fff;
+            color: #64748B;
+            border-radius: 14px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #E5E7EB;
+        }
+
+        /* 司机接单页 */
+        .driver-status-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            margin-bottom: 14px;
+        }
+
+        .driver-car-icon {
+            font-size: 52px;
+            margin-bottom: 12px;
+        }
+
+        .driver-status-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .driver-arrive-time {
+            margin-top: 8px;
+            color: #1677FF;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .driver-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .driver-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #EAF3FF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+        }
+
+        .driver-name {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .driver-rating {
+            font-size: 13px;
+            color: #64748B;
+        }
+
+        .plate-number {
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid #F1F5F9;
+            font-size: 18px;
+            font-weight: 700;
+            text-align: center;
+            color: #1677FF;
+        }
+
+        .ability-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .ability-tags span {
+            background: #F8FAFC;
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-size: 13px;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 14px 0;
+        }
+
+        .contact-btn {
+            background: #fff;
+            height: 50px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .tips-card {
+            background: #FFF7E6;
+            color: #D97706;
+            border-radius: 16px;
+            padding: 14px;
+            font-size: 13px;
+            margin-bottom: 14px;
+        }
+
+        /* 行程中页  */
+        .trip-status-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            margin-bottom: 14px;
+        }
+
+        .trip-car-icon {
+            font-size: 52px;
+            margin-bottom: 12px;
+        }
+
+        .trip-status-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .trip-status-desc {
+            margin-top: 8px;
+            color: #64748B;
+        }
+
+        .trip-route {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .trip-kpi {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            text-align: center;
+        }
+
+        .trip-kpi strong {
+            display: block;
+            font-size: 20px;
+            color: #1677FF;
+        }
+
+        .trip-kpi span {
+            font-size: 12px;
+            color: #64748B;
+        }
+
+        /* 订单完成页 */
+        .finish-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 28px;
+            text-align: center;
+            margin-bottom: 14px;
+        }
+
+        .finish-icon {
+            font-size: 56px;
+            margin-bottom: 10px;
+        }
+
+        .finish-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .finish-price {
+            margin-top: 12px;
+            font-size: 36px;
+            color: #1677FF;
+            font-weight: 700;
+        }
+
+        .finish-carbon {
+            text-align: center;
+            font-size: 16px;
+            color: #16A34A;
+            font-weight: 600;
+        }
+
+        .rating-box {
+            text-align: center;
+            font-size: 28px;
+        }
+
+        /* 救援首页 */
+
+        .rescue-hero {
+            background:
+                linear-gradient(135deg,
+                    #F37442,
+                    #F59E0B);
+            color: #fff;
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 14px;
+        }
+
+        .rescue-hero-title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .rescue-hero-desc {
+            margin-top: 10px;
+            opacity: .9;
+        }
+
+        .rescue-hero-time {
+            margin-top: 6px;
+            font-size: 14px;
+        }
+
+        .rescue-call-btn {
+            margin-top: 18px;
+            height: 48px;
+            background: #fff;
+            color: #F37442;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .vip-card {
+            background:
+                linear-gradient(135deg,
+                    #374151,
+                    #111827);
+            color: #fff;
+            border-radius: 20px;
+            padding: 20px;
+        }
+
+        .vip-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .vip-desc {
+            font-size: 13px;
+            opacity: .9;
+        }
+
+        /* 发起救援页 */
+        .rescue-type-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .rescue-type-item {
+            padding: 10px 14px;
+            background: #F8FAFC;
+            border-radius: 12px;
+            font-size: 14px;
+            border: 1px solid #E2E8F0;
+        }
+
+        .rescue-type-item.active {
+            background: #FFF7ED;
+            color: #F37442;
+            border-color: #FDBA74;
+        }
+
+        .fault-input {
+            width: 100%;
+            min-height: 100px;
+            border: none;
+            resize: none;
+            outline: none;
+            font-size: 14px;
+            background: #F8FAFC;
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price-row strong {
+            color: #F37442;
+            font-size: 24px;
+        }
+
+        /* 救援调度页 */
+        .dispatch-status-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            margin-bottom: 14px;
+        }
+
+        .dispatch-icon {
+            font-size: 52px;
+            margin-bottom: 12px;
+        }
+
+        .dispatch-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .dispatch-desc {
+            margin-top: 8px;
+            color: #F37442;
+            font-weight: 600;
+        }
+
+        .rescue-info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #F1F5F9;
+        }
+
+        .rescue-info-row:last-child {
+            border-bottom: none;
+        }
+
+        .rescue-info-row span {
+            color: #64748B;
+        }
+
+        .rescue-info-row strong {
+            color: #111827;
+        }
+
+        .rescue-promise-card {
+            background: #FFF7ED;
+            border-radius: 20px;
+            padding: 18px;
+            margin: 14px 0;
+        }
+
+        .promise-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #EA580C;
+            margin-bottom: 10px;
+        }
+
+        .promise-item {
+            margin-top: 8px;
+            color: #9A3412;
+            font-size: 14px;
+        }
+
+        /* 救援完成页 */
+        .finish-desc {
+            margin-top: 8px;
+            color: #64748B;
+            font-size: 14px;
+        }
+
+        .rescue-result-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            text-align: center;
+        }
+
+        .result-item {
+            background: #F8FAFC;
+            border-radius: 12px;
+            padding: 14px 10px;
+        }
+
+        .result-item strong {
+            display: block;
+            font-size: 20px;
+            color: #16A34A;
+            margin-bottom: 6px;
+        }
+
+        .result-item span {
+            font-size: 12px;
+            color: #64748B;
+        }
+
+        .finish-action {
+            margin-top: 16px;
+        }
+
+        /* 我的页面 */
+        .my-user-card {
+            margin: 14px;
+            padding: 20px;
+            border-radius: 24px;
+            color: #fff;
+            background:
+                linear-gradient(120deg,
+                    #2252b8,
+                    #547cb8);
+        }
+
+        .my-user-top {
+            display: flex;
+            align-items: center;
+        }
+
+        .my-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .my-user-info {
+            margin-left: 16px;
+        }
+
+        .my-user-name {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .my-user-tag {
+            margin-top: 6px;
+            font-size: 13px;
+            opacity: .9;
+        }
+
+        .my-stat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .my-stat-grid strong {
+            display: block;
+            font-size: 22px;
+        }
+
+        .my-stat-grid span {
+            font-size: 12px;
+            opacity: .9;
+        }
+
+        .order-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            text-align: center;
+        }
+
+        .order-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .order-item span {
+            font-size: 13px;
+            color: #475569;
+        }
+
+        .wallet-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            text-align: center;
+        }
+
+        .wallet-grid strong {
+            display: block;
+            font-size: 22px;
+            color: #1677FF;
+        }
+
+        .wallet-grid span {
+            font-size: 12px;
+            color: #64748B;
+        }
+
+        .menu-list {
+            margin-top: 8px;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid #F1F5F9;
+            font-size: 14px;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item:active {
+            opacity: .6;
+        }
+
+        /* 平台运营数据 */
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .data-item {
+            background: #F8FAFC;
+            border-radius: 16px;
+            padding: 18px 12px;
+            text-align: center;
+        }
+
+        .data-item strong {
+            display: block;
+            font-size: 22px;
+            font-weight: 700;
+            color: #1677FF;
+            margin-bottom: 6px;
+        }
+
+        .data-item span {
+            font-size: 13px;
+            color: #64748B;
+        }
+
+        /* 我的订单 */
+        .order-tab-wrap {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .order-tab {
+            flex: 1;
+            text-align: center;
+            background: #ffffff;
+            border-radius: 999px;
+            padding: 10px 0;
+            font-size: 14px;
+            color: #64748B;
+            font-weight: 500;
+        }
+
+        .order-tab.active {
+            background: #1677FF;
+            color: #ffffff;
+        }
+
+        .order-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 14px;
+            box-shadow:
+                0 2px 10px rgba(0, 0, 0, .04);
+        }
+
+        .order-type {
+            font-size: 15px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 12px;
+        }
+
+        .order-route {
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .order-arrow {
+            color: #94A3B8;
+            margin: 6px 0;
+        }
+
+        .order-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+            font-size: 12px;
+            color: #94A3B8;
+        }
+
+        .order-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .order-status {
+            margin-top: 10px;
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .order-status.success {
+            background: #DCFCE7;
+            color: #15803D;
+        }
+
+        .order-status.warning {
+            background: #FFF7ED;
+            color: #EA580C;
+        }
+
+        /* 订单详情 */
+        .detail-status-card {
+            background:
+                linear-gradient(135deg,
+                    #1677FF,
+                    #4F9DFF);
+            color: #fff;
+            border-radius: 24px;
+            padding: 24px;
+            text-align: center;
+            margin-bottom: 14px;
+        }
+
+        .detail-status-icon {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .detail-status-title {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .detail-status-desc {
+            margin-top: 6px;
+            font-size: 13px;
+            opacity: .9;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #F1F5F9;
+            font-size: 14px;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-row span:first-child {
+            color: #64748B;
+        }
+
+        .detail-row span:last-child {
+            color: #111827;
+        }
+
+        .detail-row.total {
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .detail-row.total span:last-child {
+            color: #1677FF;
+        }
+
+        .detail-btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .detail-btn {
+            height: 48px;
+            border-radius: 14px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .detail-btn.primary {
+            background: #1677FF;
+            color: #ffffff;
+        }
+
+        /* 救援订单详情 */
+        .rescue-detail-status {
+            background:
+                linear-gradient(135deg,
+                    #F97316,
+                    #FB923C);
+            color: #fff;
+            border-radius: 24px;
+            padding: 24px;
+            text-align: center;
+            margin-bottom: 14px;
+        }
+
+        /* 我的车辆 */
+        .vehicle-banner {
+            background:
+                linear-gradient(135deg,
+                    #1E40AF,
+                    #2563EB);
+            color: #fff;
+            border-radius: 24px;
+            padding: 22px;
+            margin-bottom: 14px;
+        }
+
+        .vehicle-banner-title {
+            font-size: 14px;
+            opacity: .9;
+        }
+
+        .vehicle-banner-name {
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        .vehicle-banner-plate {
+            margin-top: 8px;
+            font-size: 16px;
+        }
+
+        .vehicle-stat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            text-align: center;
+        }
+
+        .vehicle-stat-grid strong {
+            display: block;
+            font-size: 22px;
+            color: #1677FF;
+        }
+
+        .vehicle-stat-grid span {
+            font-size: 12px;
+            color: #64748B;
+        }
+
+        .vehicle-btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .vehicle-btn {
+            height: 48px;
+            border-radius: 14px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .vehicle-btn.primary {
+            background: #1677FF;
+            color: #ffffff;
+        }
+
+        /* 会员中心 */
+        .vip-current-card {
+            background:
+                linear-gradient(135deg,
+                    #D97706,
+                    #F59E0B);
+            color: #fff;
+            border-radius: 28px;
+            padding: 24px;
+            margin-bottom: 14px;
+            box-shadow:
+                0 8px 24px rgba(245, 158, 11, .25);
+        }
+
+        .vip-current-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .vip-level-tag {
+            font-size: 12px;
+            opacity: .8;
+            letter-spacing: 1px;
+        }
+
+        .vip-current-name {
+            margin-top: 6px;
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        .vip-current-expire {
+            font-size: 12px;
+            text-align: right;
+            opacity: .9;
+        }
+
+        .vip-current-bottom {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            margin-top: 24px;
+        }
+
+        .vip-data-item {
+            text-align: center;
+        }
+
+        .vip-data-item strong {
+            display: block;
+            font-size: 22px;
+        }
+
+        .vip-data-item span {
+            font-size: 12px;
+            opacity: .9;
+        }
+
+        .vip-benefit-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+
+        .vip-benefit {
+            background: #F8FAFC;
+            border-radius: 14px;
+            padding: 12px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .vip-benefit span {
+            display: block;
+            margin-top: 6px;
+        }
+
+        .vip-level-flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .level-node {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #F1F5F9;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            color: #64748B;
+        }
+
+        .level-node.active {
+            background: #F59E0B;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .level-line {
+            flex: 1;
+            height: 2px;
+            background: #E2E8F0;
+        }
+
+        .vip-upgrade-card {
+            border-radius: 22px;
+            padding: 20px;
+            margin-bottom: 14px;
+            color: #fff;
+        }
+
+        .vip-upgrade-card.platinum {
+            background:
+                linear-gradient(135deg,
+                    #4F46E5,
+                    #6366F1);
+        }
+
+        .vip-upgrade-card.black {
+            background:
+                linear-gradient(135deg,
+                    #0F172A,
+                    #334155);
+        }
+
+        .vip-upgrade-card.enterprise {
+            background:
+                linear-gradient(135deg,
+                    #065F46,
+                    #10B981);
+        }
+
+        .upgrade-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .upgrade-price {
+            margin-top: 10px;
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        .upgrade-desc {
+            margin-top: 10px;
+            font-size: 13px;
+            opacity: .95;
         }
     </style>
 </head>
 
 <body>
     <div class="app">
-        <div class="page">
 
+        <!-- 功能一：【首页】 -->
+        <div class="page active-page" id="page-home">
+            <!-- 页眉定位及消息 -->
             <div class="header">
                 <div class="location">📍 深圳 ▼</div>
                 <div class="notice">🔔</div>
             </div>
-
-            <div class="card ride-search">
+            <!-- 网约出行 -->
+            <div class="card ride-search" onclick="showPage('travel')">
                 <div class="ride-title">🚘 我要去哪</div>
                 <div class="search-box">请输入目的地</div>
             </div>
-
             <div class="car-scroll">
                 <div class="car-item active">快车</div>
                 <div class="car-item">专车</div>
                 <div class="car-item">商务车</div>
                 <div class="car-item">接送机</div>
             </div>
-
-            <div class="card rescue-card">
+            <!-- 道路救援 -->
+            <div class="card rescue-card" onclick="showPage('rescue')">
                 <div>
                     <div class="rescue-title">🛟 一键救援</div>
                     <div class="rescue-desc">移动补电 · 拖车救援 · 换胎服务</div>
                 </div>
                 <div class="call-btn">呼叫</div>
             </div>
-
+            <!-- 常用服务 -->
             <div class="card">
                 <div class="section-title">常用服务</div>
                 <div class="service-grid">
-                    <div class="service-item">
+                    <div class="service-item" onclick="showPage('travel')">
                         <div class="service-icon">🚖</div><span>预约出行</span>
                     </div>
-                    <div class="service-item">
+                    <div class="service-item" onclick="showPage('travel')">
                         <div class="service-icon">✈️</div><span>接机送机</span>
                     </div>
-                    <div class="service-item">
+                    <div class="service-item" onclick="showPage('travel')">
                         <div class="service-icon">🏢</div><span>企业用车</span>
                     </div>
-                    <div class="service-item">
+                    <div class="service-item" onclick="showPage('rescue')">
                         <div class="service-icon">🔋</div><span>移动补电</span>
                     </div>
-                    <div class="service-item">
+                    <div class="service-item" onclick="showPage('rescue')">
                         <div class="service-icon">🚛</div><span>拖车救援</span>
                     </div>
                     <div class="service-item">
@@ -273,7 +1517,7 @@
                     </div>
                 </div>
             </div>
-
+            <!-- 最近可服务车辆 -->
             <div class="card">
                 <div class="section-title">最近可服务车辆</div>
                 <div class="vehicle-name">🚘 A01能源服务车</div>
@@ -284,7 +1528,31 @@
                 </div>
                 <div class="arrive">预计3分钟到达</div>
             </div>
-
+            <!-- 平台运营数据 -->
+            <div class="card">
+                <div class="section-title">
+                    平台运营数据
+                </div>
+                <div class="data-grid">
+                    <div class="data-item">
+                        <strong>126,580</strong>
+                        <span>注册车主</span>
+                    </div>
+                    <div class="data-item">
+                        <strong>586,320</strong>
+                        <span>累计出行</span>
+                    </div>
+                    <div class="data-item">
+                        <strong>82,615</strong>
+                        <span>累计救援</span>
+                    </div>
+                    <div class="data-item">
+                        <strong>99.2%</strong>
+                        <span>满意度</span>
+                    </div>
+                </div>
+            </div>
+            <!-- 新人专享 -->
             <div class="card">
                 <div class="section-title">新人专享</div>
                 <div class="banner">
@@ -292,25 +1560,1654 @@
                     <div>注册即领，首单立减</div>
                 </div>
             </div>
-
         </div>
 
+        <!-- 功能二：【出行】首页 -->
+        <div class="page" id="page-travel">
+            <!-- 顶部 -->
+            <div class="sub-header">
+                <div class="page-title">
+                    预约出行
+                </div>
+            </div>
+            <!-- 地图区域 -->
+            <div class="travel-map">
+                <div class="map-tip">
+                    📍 当前定位：深圳南山区科技园
+                </div>
+            </div>
+            <!-- 下单面板 -->
+            <div class="travel-panel">
+                <div class="location-card">
+                    <div class="location-item">
+                        <span class="dot-start"></span>
+                        <span>
+                            深圳湾科技生态园
+                        </span>
+                    </div>
+                    <div class="location-item">
+                        <span class="dot-end"></span>
+                        <span class="placeholder">
+                            请输入目的地
+                        </span>
+                    </div>
+                </div>
+                <!-- 车型 -->
+                <div class="car-type-list">
+                    <div class="car-type-item active">
+                        <div>
+                            🚘 快车
+                            <div class="car-desc">
+                                经济实惠 · 最快接驾
+                            </div>
+                        </div>
+                        <div class="car-price">
+                            ¥18
+                        </div>
+                    </div>
+                    <div class="car-type-item">
+                        <div>
+                            🚖 专车
+                            <div class="car-desc">
+                                舒适车型
+                            </div>
+                        </div>
+                        <div class="car-price">
+                            ¥32
+                        </div>
+                    </div>
+                    <div class="car-type-item">
+                        <div>
+                            🚐 商务车
+                            <div class="car-desc">
+                                适合多人出行
+                            </div>
+                        </div>
+                        <div class="car-price">
+                            ¥56
+                        </div>
+                    </div>
+                </div>
+                <!-- 特色功能 -->
+                <div class="energy-card">
+                    🌱 新能源专车
+                    <span>
+                        碳积分奖励
+                    </span>
+                </div>
+                <!-- 呼叫按钮 -->
+                <div class="call-car-btn" onclick="showPage('wait')">
+                    立即呼叫车辆
+                </div>
+            </div>
+        </div>
+
+        <!-- 功能二：【出行】 - 1 - 等待接驾 -->
+        <div class="page" id="page-wait">
+            <div class="sub-header">
+                <div class="return-back" onclick="showPage('travel')">
+                    ←
+                </div>
+                <div class="page-title">
+                    正在匹配车辆
+                </div>
+            </div>
+            <div class="sub-content">
+                <!-- 匹配状态 -->
+                <div class="wait-status-card">
+                    <div class="wait-icon">
+                        🔍
+                    </div>
+                    <div class="wait-title">
+                        正在为您匹配能源服务车辆
+                    </div>
+                    <div class="wait-desc">
+                        预计10秒内完成匹配
+                    </div>
+                </div>
+                <!-- 订单信息 -->
+                <div class="card">
+                    <div class="section-title">
+                        本次行程
+                    </div>
+                    <div class="trip-info">
+                        <div>
+                            📍 深圳湾科技生态园
+                        </div>
+                        <div>
+                            🎯 腾讯滨海大厦
+                        </div>
+                    </div>
+                    <div class="trip-price">
+                        预计费用
+                        <strong>¥18</strong>
+                    </div>
+                </div>
+                <!-- 附近车辆 -->
+                <div class="card">
+                    <div class="section-title">
+                        附近可服务车辆
+                    </div>
+                    <div class="nearby-item">
+                        🚘 A01能源服务车
+                        <span>0.8km</span>
+                    </div>
+                    <div class="nearby-item">
+                        🚘 A08能源服务车
+                        <span>1.2km</span>
+                    </div>
+                    <div class="nearby-item">
+                        🚘 A15能源服务车
+                        <span>1.7km</span>
+                    </div>
+                </div>
+                <!-- 特色展示 -->
+                <div class="energy-match-card">
+                    <div class="energy-title">
+                        ⚡ 优先匹配新能源服务车
+                    </div>
+                    <div class="energy-tags">
+                        <span>出行</span>
+                        <span>补电</span>
+                        <span>救援</span>
+                    </div>
+                </div>
+                <!-- 按钮 -->
+                <div class="wait-btn-group">
+                    <div class="simulate-btn" onclick="showPage('driver')">
+                        模拟司机接单
+                    </div>
+                    <div class="cancel-btn" onclick="showPage('travel')">
+                        取消订单
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 功能二：【出行】 - 2 - 司机接单 -->
+        <div class="page" id="page-driver">
+            <div class="sub-header">
+                <div class="return-back" onclick="showPage('wait')">
+                    ←
+                </div>
+                <div class="page-title">
+                    司机已接单
+                </div>
+            </div>
+            <div class="sub-content">
+                <!-- 车辆状态 -->
+                <div class="driver-status-card">
+                    <div class="driver-car-icon">
+                        🚘
+                    </div>
+                    <div class="driver-status-title">
+                        A01能源服务车正在前往接您
+                    </div>
+                    <div class="driver-arrive-time">
+                        预计 3 分钟到达
+                    </div>
+                </div>
+                <!-- 司机信息 -->
+                <div class="card">
+                    <div class="section-title">
+                        司机信息
+                    </div>
+                    <div class="driver-info">
+                        <div class="driver-avatar">
+                            👨
+                        </div>
+                        <div class="driver-detail">
+                            <div class="driver-name">
+                                张师傅
+                            </div>
+                            <div class="driver-rating">
+                                ⭐ 4.9分 · 服务2867单
+                            </div>
+                        </div>
+                    </div>
+                    <div class="plate-number">
+                        粤B · A88888
+                    </div>
+                </div>
+                <!-- 服务能力 -->
+                <div class="card">
+                    <div class="section-title">
+                        服务能力
+                    </div>
+                    <div class="ability-tags">
+                        <span>🚘 出行服务</span>
+                        <span>🔋 移动补电</span>
+                        <span>🛟 道路救援</span>
+                    </div>
+                </div>
+                <!-- 联系 -->
+                <div class="contact-grid">
+                    <div class="contact-btn">
+                        📞 联系司机
+                    </div>
+                    <div class="contact-btn">
+                        🎧 联系平台
+                    </div>
+                </div>
+                <!-- 温馨提示 -->
+                <div class="tips-card">
+                    请保持电话畅通，司机到达后将第一时间联系您。
+                </div>
+                <!-- 操作按钮 -->
+                <div class="wait-btn-group">
+                    <div class="simulate-btn" onclick="showPage('trip')">
+                        模拟司机到达
+                    </div>
+                    <div class="cancel-btn" onclick="showPage('travel')">
+                        取消订单
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 功能二：【出行】 - 3 - 行程中 -->
+        <div class="page" id="page-trip">
+            <div class="sub-header">
+                <div class="return-back" onclick="showPage('driver')">
+                    ←
+                </div>
+                <div class="page-title">
+                    行程进行中
+                </div>
+            </div>
+            <div class="sub-content">
+                <div class="trip-status-card">
+                    <div class="trip-car-icon">
+                        🚘
+                    </div>
+                    <div class="trip-status-title">
+                        已接到乘客
+                    </div>
+                    <div class="trip-status-desc">
+                        正在前往目的地
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="section-title">
+                        当前车辆
+                    </div>
+                    <div class="driver-info">
+                        <div class="driver-avatar">
+                            👨
+                        </div>
+                        <div class="driver-detail">
+                            <div class="driver-name">
+                                张师傅
+                            </div>
+                            <div class="driver-rating">
+                                粤B · A88888
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="section-title">
+                        本次行程
+                    </div>
+                    <div class="trip-route">
+                        <div>📍 深圳湾科技生态园</div>
+                        <div>🎯 腾讯滨海大厦</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="section-title">
+                        实时状态
+                    </div>
+                    <div class="trip-kpi">
+                        <div>
+                            <strong>6.8km</strong>
+                            <span>已行驶</span>
+                        </div>
+                        <div>
+                            <strong>3.2km</strong>
+                            <span>剩余距离</span>
+                        </div>
+                        <div>
+                            <strong>8分钟</strong>
+                            <span>预计到达</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="energy-match-card">
+                    <div class="energy-title">
+                        ⚡ 绿色出行贡献
+                    </div>
+                    <div>
+                        本次预计减少碳排放 0.8kg
+                    </div>
+                </div>
+                <div class="simulate-btn" onclick="showPage('finish')">
+                    模拟到达目的地
+                </div>
+            </div>
+        </div>
+
+        <!-- 功能二：【出行】 - 4 - 订单完成 -->
+        <div class="page" id="page-finish">
+            <div class="sub-header">
+                <div class="page-title">
+                    行程完成
+                </div>
+            </div>
+            <div class="sub-content">
+                <div class="finish-card">
+                    <div class="finish-icon">
+                        ✅
+                    </div>
+                    <div class="finish-title">
+                        行程已完成
+                    </div>
+                    <div class="finish-price">
+                        ¥18
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="section-title">
+                        行程详情
+                    </div>
+                    <div class="trip-kpi">
+                        <div>
+                            <strong>10km</strong>
+                            <span>总里程</span>
+                        </div>
+                        <div>
+                            <strong>18分钟</strong>
+                            <span>总时长</span>
+                        </div>
+                        <div>
+                            <strong>¥18</strong>
+                            <span>订单金额</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="section-title">
+                        绿色出行贡献
+                    </div>
+                    <div class="finish-carbon">
+                        ⚡ 减少碳排放 0.8kg
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="section-title">
+                        司机评价
+                    </div>
+                    <div class="rating-box">
+                        ⭐⭐⭐⭐⭐
+                    </div>
+                </div>
+                <div class="simulate-btn" onclick="showPage('home')">
+                    返回首页
+                </div>
+            </div>
+        </div>
+
+        <!-- 功能三：【救援】首页  -->
+        <div class="page" id="page-rescue">
+            <div class="sub-header">
+                <div class="page-title">
+                    道路救援
+                </div>
+            </div>
+            <div class="sub-content">
+                <!-- 一键救援 -->
+                <div class="rescue-hero">
+                    <div class="rescue-hero-title">
+                        🚨 一键救援
+                    </div>
+                    <div class="rescue-hero-desc">
+                        深圳市南山区科技园
+                    </div>
+                    <div class="rescue-hero-time">
+                        预计3分钟响应
+                    </div>
+                    <div class="rescue-call-btn" onclick="showPage('rescue-order')">
+                        立即呼叫救援
+                    </div>
+                </div>
+                <!-- 救援服务 -->
+                <div class="card">
+                    <div class="section-title">
+                        救援服务
+                    </div>
+                    <div class="service-grid">
+                        <div class="service-item">
+                            <div class="service-icon">🔋</div>
+                            <span>移动补电</span>
+                        </div>
+                        <div class="service-item">
+                            <div class="service-icon">🚛</div>
+                            <span>拖车救援</span>
+                        </div>
+                        <div class="service-item">
+                            <div class="service-icon">🛞</div>
+                            <span>换胎服务</span>
+                        </div>
+                        <div class="service-item">
+                            <div class="service-icon">🔧</div>
+                            <span>故障救援</span>
+                        </div>
+                        <div class="service-item">
+                            <div class="service-icon">🔑</div>
+                            <span>开锁服务</span>
+                        </div>
+                        <div class="service-item">
+                            <div class="service-icon">🚗</div>
+                            <span>困境脱困</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 附近车辆 -->
+                <div class="card">
+                    <div class="section-title">
+                        附近救援车辆
+                    </div>
+                    <div class="nearby-item">
+                        🚘 A01能源服务车
+                        <span>1.2km</span>
+                    </div>
+                    <div class="nearby-item">
+                        🚘 A08能源服务车
+                        <span>2.3km</span>
+                    </div>
+                    <div class="nearby-item">
+                        🚘 A15能源服务车
+                        <span>3.8km</span>
+                    </div>
+                </div>
+                <!-- 会员 -->
+                <div class="vip-card">
+                    <div class="vip-title">
+                        👑 救援会员
+                    </div>
+                    <div class="vip-desc">
+                        全年补电优惠 · 拖车折扣 · 专属客服
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 功能三：【救援】 - 1 - 发起救援 -->
+        <div class="page" id="page-rescue-order">
+            <div class="sub-header">
+                <div class="return-back" onclick="showPage('rescue')">
+                    ←
+                </div>
+                <div class="page-title">
+                    发起救援
+                </div>
+            </div>
+            <div class="sub-content">
+                <!-- 车辆 -->
+                <div class="card">
+                    <div class="section-title">
+                        我的车辆
+                    </div>
+                    <div class="vehicle-name">
+                        🚗 比亚迪汉EV
+                    </div>
+                    <div class="arrive">
+                        粤B · A88888
+                    </div>
+                </div>
+                <!-- 定位 -->
+                <div class="card">
+                    <div class="section-title">
+                        救援位置
+                    </div>
+                    <div class="location-item">
+                        <span class="dot-start"></span>
+                        <span>
+                            深圳市南山区科技园
+                        </span>
+                    </div>
+                </div>
+                <!-- 救援类型 -->
+                <div class="card">
+                    <div class="section-title">
+                        救援类型
+                    </div>
+                    <div class="rescue-type-list">
+                        <div class="rescue-type-item active">
+                            🔋 移动补电
+                        </div>
+                        <div class="rescue-type-item">
+                            🚛 拖车救援
+                        </div>
+                        <div class="rescue-type-item">
+                            🛞 换胎服务
+                        </div>
+                        <div class="rescue-type-item">
+                            🔧 故障维修
+                        </div>
+                        <div class="rescue-type-item">
+                            🔑 开锁服务
+                        </div>
+                    </div>
+                </div>
+                <!-- 故障描述 -->
+                <div class="card">
+                    <div class="section-title">
+                        故障描述
+                    </div>
+                    <textarea class="fault-input" placeholder="请简要描述车辆故障情况..."></textarea>
+                </div>
+                <!-- 费用 -->
+                <div class="card">
+                    <div class="price-row">
+                        <span>预计费用</span>
+                        <strong>¥99</strong>
+                    </div>
+                </div>
+                <!-- 提交 -->
+                <div class="simulate-btn" onclick="showPage('rescue-dispatch')">
+                    提交救援申请
+                </div>
+            </div>
+        </div>
+
+        <!-- 功能三：【救援】 - 2 - 救援调度 -->
+        <div class="page" id="page-rescue-dispatch">
+            <div class="sub-header">
+                <div class="return-back" onclick="showPage('rescue-order')">
+                    ←
+                </div>
+                <div class="page-title">
+                    救援调度中
+                </div>
+            </div>
+            <div class="sub-content">
+                <!-- 调度状态 -->
+                <div class="dispatch-status-card">
+                    <div class="dispatch-icon">
+                        🚨
+                    </div>
+                    <div class="dispatch-title">
+                        正在为您匹配救援车辆
+                    </div>
+                    <div class="dispatch-desc">
+                        预计3分钟响应
+                    </div>
+                </div>
+                <!-- 救援信息 -->
+                <div class="card">
+                    <div class="section-title">
+                        本次救援
+                    </div>
+                    <div class="rescue-info-row">
+                        <span>救援类型</span>
+                        <strong>移动补电</strong>
+                    </div>
+                    <div class="rescue-info-row">
+                        <span>救援位置</span>
+                        <strong>深圳南山区科技园</strong>
+                    </div>
+                </div>
+                <!-- 附近车辆 -->
+                <div class="card">
+                    <div class="section-title">
+                        附近救援车辆
+                    </div>
+                    <div class="nearby-item">
+                        🚘 A01能源服务车
+                        <span>1.2km</span>
+                    </div>
+                    <div class="nearby-item">
+                        🚘 A08能源服务车
+                        <span>2.1km</span>
+                    </div>
+                    <div class="nearby-item">
+                        🚘 A15能源服务车
+                        <span>3.8km</span>
+                    </div>
+                </div>
+                <!-- 服务承诺 -->
+                <div class="rescue-promise-card">
+                    <div class="promise-title">
+                        🛡 平台服务承诺
+                    </div>
+                    <div class="promise-item">
+                        ✓ 7×24小时服务
+                    </div>
+                    <div class="promise-item">
+                        ✓ 平均5分钟响应
+                    </div>
+                    <div class="promise-item">
+                        ✓ 救援全程可追踪
+                    </div>
+                </div>
+                <!-- 操作按钮 -->
+                <div class="wait-btn-group">
+                    <div class="simulate-btn" onclick="showPage('rescue-progress')">
+                        模拟车辆接单
+                    </div>
+                    <div class="cancel-btn" onclick="showPage('rescue')">
+                        取消申请
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 功能三：【救援】 - 3 - 救援进行中 -->
+        <div class="page" id="page-rescue-progress">
+            <div class="sub-header">
+                <div class="return-back" onclick="showPage('rescue-dispatch')">
+                    ←
+                </div>
+                <div class="page-title">
+                    救援车辆已接单
+                </div>
+            </div>
+            <div class="sub-content">
+                <!-- 状态 -->
+                <div class="driver-status-card">
+                    <div class="driver-car-icon">
+                        🚘
+                    </div>
+                    <div class="driver-status-title">
+                        A01能源服务车正在赶来
+                    </div>
+                    <div class="driver-arrive-time">
+                        预计5分钟到达
+                    </div>
+                </div>
+                <!-- 工程师 -->
+                <div class="card">
+                    <div class="section-title">
+                        救援工程师
+                    </div>
+                    <div class="driver-info">
+                        <div class="driver-avatar">
+                            👨‍🔧
+                        </div>
+                        <div class="driver-detail">
+                            <div class="driver-name">
+                                张师傅
+                            </div>
+                            <div class="driver-rating">
+                                ⭐ 4.9分 · 已完成2867次服务
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 车辆信息 -->
+                <div class="card">
+                    <div class="section-title">
+                        救援车辆
+                    </div>
+                    <div class="rescue-info-row">
+                        <span>车牌号码</span>
+                        <strong>粤B · A88888</strong>
+                    </div>
+                    <div class="rescue-info-row">
+                        <span>服务半径</span>
+                        <strong>30km</strong>
+                    </div>
+                </div>
+                <!-- 服务能力 -->
+                <div class="card">
+                    <div class="section-title">
+                        服务能力
+                    </div>
+                    <div class="ability-tags">
+                        <span>🔋 移动补电</span>
+                        <span>🚛 拖车救援</span>
+                        <span>🛞 换胎服务</span>
+                        <span>🔧 故障检测</span>
+                    </div>
+                </div>
+                <!-- 联系 -->
+                <div class="contact-grid">
+                    <div class="contact-btn">
+                        📞 联系工程师
+                    </div>
+                    <div class="contact-btn">
+                        🎧 联系平台
+                    </div>
+                </div>
+                <!-- 提示 -->
+                <div class="tips-card">
+                    救援车辆已出发，请保持电话畅通并注意周边环境安全。
+                </div>
+                <!-- 操作 -->
+                <div class="wait-btn-group">
+                    <div class="simulate-btn" onclick="showPage('rescue-finish')">
+                        模拟救援完成
+                    </div>
+                    <div class="cancel-btn" onclick="showPage('rescue')">
+                        取消申请
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 功能三：【救援】 - 4 - 救援完成 -->
+        <div class="page" id="page-rescue-finish">
+            <div class="sub-header">
+                <div class="page-title">
+                    救援完成
+                </div>
+            </div>
+            <div class="sub-content">
+                <!-- 完成状态 -->
+                <div class="finish-card">
+                    <div class="finish-icon">
+                        ✅
+                    </div>
+                    <div class="finish-title">
+                        救援已完成
+                    </div>
+                    <div class="finish-desc">
+                        移动补电服务已完成
+                    </div>
+                </div>
+                <!-- 服务结果 -->
+                <div class="card">
+                    <div class="section-title">
+                        服务结果
+                    </div>
+                    <div class="rescue-result-grid">
+                        <div class="result-item">
+                            <strong>18kWh</strong>
+                            <span>补电电量</span>
+                        </div>
+                        <div class="result-item">
+                            <strong>120km</strong>
+                            <span>恢复续航</span>
+                        </div>
+                        <div class="result-item">
+                            <strong>22分钟</strong>
+                            <span>服务时长</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 费用 -->
+                <div class="card">
+                    <div class="section-title">
+                        本次费用
+                    </div>
+                    <div class="finish-price">
+                        ¥99
+                    </div>
+                </div>
+                <!-- 服务人员 -->
+                <div class="card">
+                    <div class="section-title">
+                        服务信息
+                    </div>
+                    <div class="rescue-info-row">
+                        <span>工程师</span>
+                        <strong>张师傅</strong>
+                    </div>
+                    <div class="rescue-info-row">
+                        <span>服务车辆</span>
+                        <strong>A01能源服务车</strong>
+                    </div>
+                    <div class="rescue-info-row">
+                        <span>服务评分</span>
+                        <strong>⭐ 4.9</strong>
+                    </div>
+                </div>
+                <!-- 能源贡献 -->
+                <div class="energy-match-card">
+                    <div class="energy-title">
+                        ⚡ 绿色能源贡献
+                    </div>
+                    <div>
+                        本次服务预计减少碳排放 2.8kg
+                    </div>
+                </div>
+                <!-- 用户评价 -->
+                <div class="card">
+                    <div class="section-title">
+                        服务评价
+                    </div>
+                    <div class="rating-box">
+                        ⭐⭐⭐⭐⭐
+                    </div>
+                </div>
+                <!-- 会员推荐 -->
+                <div class="vip-card">
+                    <div class="vip-title">
+                        👑 救援会员推荐
+                    </div>
+                    <div class="vip-desc">
+                        全年补电优惠 · 拖车折扣 · 专属客服
+                    </div>
+                </div>
+                <!-- 返回首页 -->
+                <div class="finish-action">
+                    <div class="simulate-btn" onclick="showPage('home')">
+                        返回首页
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 功能四：【我的】首页  -->
+        <div class="page" id="page-mine">
+            <div class="sub-header-mine">
+                <!-- <div class="page-title">
+                    我的
+                </div> -->
+            </div>
+            <div class="sub-content">
+                <!-- 用户卡 -->
+                <div class="my-user-card">
+                    <div class="my-user-top">
+                        <div class="my-avatar">
+                            ⚡
+                        </div>
+                        <div class="my-user-info">
+                            <div class="my-user-name">
+                                张先生
+                            </div>
+                            <div class="my-user-tag">
+                                已认证车主
+                            </div>
+                        </div>
+                    </div>
+                    <div class="my-stat-grid">
+                        <div>
+                            <strong>68</strong>
+                            <span>出行次数</span>
+                        </div>
+                        <div>
+                            <strong>5</strong>
+                            <span>救援次数</span>
+                        </div>
+                        <div>
+                            <strong>1280</strong>
+                            <span>积分</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 我的车辆 -->
+                <div class="card" onclick="showPage('vehicle')">
+                    <div class="section-title">
+                        我的车辆
+                    </div>
+                    <div class="my-vehicle-card">
+                        <div class="vehicle-name">
+                            🚗 比亚迪汉EV
+                        </div>
+                        <div class="arrive">
+                            粤B · A88888
+                        </div>
+                        <div class="tags">
+                            <span>续航520km</span>
+                            <span>已认证</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 我的订单 -->
+                <div class="card" onclick="showPage('orders')">
+                    <div class="section-title">
+                        我的订单
+                    </div>
+                    <div class="order-grid">
+                        <div class="order-item">
+                            <div class="order-icon">📅</div>
+                            <span>待出发</span>
+                        </div>
+                        <div class="order-item">
+                            <div class="order-icon">🚘</div>
+                            <span>进行中</span>
+                        </div>
+                        <div class="order-item">
+                            <div class="order-icon">✅</div>
+                            <span>已完成</span>
+                        </div>
+                        <div class="order-item">
+                            <div class="order-icon">🎧</div>
+                            <span>售后</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 我的钱包 -->
+                <div class="card">
+                    <div class="section-title">
+                        我的钱包
+                    </div>
+                    <div class="wallet-grid">
+                        <div>
+                            <strong>¥286</strong>
+                            <span>余额</span>
+                        </div>
+                        <div>
+                            <strong>3</strong>
+                            <span>优惠券</span>
+                        </div>
+                        <div>
+                            <strong>1280</strong>
+                            <span>积分</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 会员专属 -->
+                <div class="vip-card" onclick="showPage('vip')">
+                    <div class="vip-title">
+                        👑 会员专属
+                    </div>
+                    <div class="vip-desc">
+                        出行优先 · 补电优惠 · 拖车折扣 · 专属客服
+                    </div>
+                </div>
+                <!-- 更多服务 -->
+                <div class="card">
+                    <div class="section-title">
+                        更多服务
+                    </div>
+                    <div class="menu-list">
+                        <div class="menu-item" onclick="showPage('vehicle')">
+                            <span>🚗 我的车辆</span>
+                            <span>›</span>
+                        </div>
+                        <div class="menu-item" onclick="showPage('orders')">
+                            <span>📄 我的订单</span>
+                            <span>›</span>
+                        </div>
+                        <div class="menu-item">
+                            <span>🚘 出行记录</span>
+                            <span>›</span>
+                        </div>
+                        <div class="menu-item">
+                            <span>🛟 救援记录</span>
+                            <span>›</span>
+                        </div>
+                        <div class="menu-item">
+                            <span>🧾 发票中心</span>
+                            <span>›</span>
+                        </div>
+                        <div class="menu-item" onclick="showPage('vip')">
+                            <span>👑 会员中心</span>
+                            <span>›</span>
+                        </div>
+                        <div class="menu-item">
+                            <span>🎧 联系客服</span>
+                            <span>›</span>
+                        </div>
+                        <div class="menu-item">
+                            <span>⚙️ 设置中心</span>
+                            <span>›</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 功能四：【我的】 - 1 - 我的订单 -->
+        <div class="page" id="page-orders">
+            <!-- 顶部 -->
+            <div class="sub-header">
+                <div class="return-back" onclick="showPage('mine')">
+                    ←
+                </div>
+                <div class="page-title">
+                    我的订单
+                </div>
+            </div>
+            <div class="sub-content">
+                <!-- 分类切换 -->
+                <div class="order-tab-wrap">
+                    <div class="order-tab active">
+                        全部
+                    </div>
+                    <div class="order-tab">
+                        出行
+                    </div>
+                    <div class="order-tab">
+                        救援
+                    </div>
+                </div>
+                <!-- 出行订单 -->
+                <div class="order-card" onclick="showPage('order-detail')">
+                    <div class="order-type">
+                        🚘 出行订单
+                    </div>
+                    <div class="order-route">
+                        深圳湾万象城
+                    </div>
+                    <div class="order-arrow">
+                        ↓
+                    </div>
+                    <div class="order-route">
+                        腾讯滨海大厦
+                    </div>
+                    <div class="order-bottom">
+                        <span>
+                            2026-06-10 09:35
+                        </span>
+                        <span class="order-price">
+                            ¥38.50
+                        </span>
+                    </div>
+                    <div class="order-status success">
+                        已完成
+                    </div>
+                </div>
+                <!-- 救援订单 -->
+                <div class="order-card" onclick="showPage('rescue-order-detail')">
+                    <div class="order-type">
+                        🔋 移动补电
+                    </div>
+                    <div class="order-route">
+                        深圳市南山区科技园
+                    </div>
+                    <div class="order-bottom">
+                        <span>
+                            2026-06-08 18:25
+                        </span>
+                        <span class="order-price">
+                            ¥69.00
+                        </span>
+                    </div>
+                    <div class="order-status warning">
+                        已完成
+                    </div>
+                </div>
+                <!-- 拖车订单 -->
+                <div class="order-card" onclick="showPage('rescue-order-detail')">
+                    <div class="order-type">
+                        🚛 拖车救援
+                    </div>
+                    <div class="order-route">
+                        深圳宝安国际机场
+                    </div>
+                    <div class="order-bottom">
+                        <span>
+                            2026-06-05 14:10
+                        </span>
+                        <span class="order-price">
+                            ¥158.00
+                        </span>
+                    </div>
+                    <div class="order-status warning">
+                        已完成
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 功能四：【我的】 - 1 - 我的订单 - 2 - 订单详情 - 1 - 出行订单 -->
+        <div class="page" id="page-order-detail">
+            <div class="sub-header">
+                <div class="return-back" onclick="showPage('orders')">
+                    ←
+                </div>
+                <div class="page-title">
+                    订单详情
+                </div>
+            </div>
+            <div class="sub-content">
+                <!-- 状态 -->
+                <div class="detail-status-card">
+                    <div class="detail-status-icon">
+                        ✅
+                    </div>
+                    <div class="detail-status-title">
+                        已完成
+                    </div>
+                    <div class="detail-status-desc">
+                        感谢使用约电出行
+                    </div>
+                </div>
+                <!-- 行程 -->
+                <div class="card">
+                    <div class="section-title">
+                        出行信息
+                    </div>
+                    <div class="order-route">
+                        深圳湾万象城
+                    </div>
+                    <div class="order-arrow">
+                        ↓
+                    </div>
+                    <div class="order-route">
+                        腾讯滨海大厦
+                    </div>
+                </div>
+                <!-- 订单信息 -->
+                <div class="card">
+                    <div class="section-title">
+                        订单信息
+                    </div>
+                    <div class="detail-row">
+                        <span>订单编号</span>
+                        <span>YD202606100001</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>下单时间</span>
+                        <span>2026-06-10 09:35</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>接单时间</span>
+                        <span>2026-06-10 09:37</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>完成时间</span>
+                        <span>2026-06-10 10:12</span>
+                    </div>
+                </div>
+                <!-- 费用 -->
+                <div class="card">
+                    <div class="section-title">
+                        费用明细
+                    </div>
+                    <div class="detail-row">
+                        <span>起步费</span>
+                        <span>¥15.00</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>里程费</span>
+                        <span>¥18.50</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>服务费</span>
+                        <span>¥5.00</span>
+                    </div>
+                    <div class="detail-row total">
+                        <span>实付金额</span>
+                        <span>¥38.50</span>
+                    </div>
+                </div>
+                <!-- 操作 -->
+                <div class="detail-btn-group">
+                    <div class="detail-btn">
+                        联系司机
+                    </div>
+                    <div class="detail-btn">
+                        再来一单
+                    </div>
+                    <div class="detail-btn primary">
+                        评价服务
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 功能四：【我的】 - 1 - 我的订单 - 2 - 订单详情 - 2 - 救援订单详情 -->
+        <div class="page" id="page-rescue-order-detail">
+            <div class="sub-header">
+                <div class="return-back" onclick="showPage('orders')">
+                    ←
+                </div>
+                <div class="page-title">
+                    救援订单详情
+                </div>
+            </div>
+            <div class="sub-content">
+                <!-- 状态 -->
+                <div class="rescue-detail-status">
+                    <div class="detail-status-icon">
+                        🛟
+                    </div>
+                    <div class="detail-status-title">
+                        救援已完成
+                    </div>
+                    <div class="detail-status-desc">
+                        感谢使用约电道路救援服务
+                    </div>
+                </div>
+                <!-- 服务信息 -->
+                <div class="card">
+                    <div class="section-title">
+                        服务信息
+                    </div>
+                    <div class="detail-row">
+                        <span>服务类型</span>
+                        <span>移动补电</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>服务地点</span>
+                        <span>深圳科技园南区</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>服务车辆</span>
+                        <span>A01能源服务车</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>服务人员</span>
+                        <span>李师傅</span>
+                    </div>
+                </div>
+                <!-- 时间信息 -->
+                <div class="card">
+                    <div class="section-title">
+                        服务时间
+                    </div>
+                    <div class="detail-row">
+                        <span>下单时间</span>
+                        <span>2026-06-08 18:25</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>接单时间</span>
+                        <span>2026-06-08 18:26</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>到达时间</span>
+                        <span>2026-06-08 18:31</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>完成时间</span>
+                        <span>2026-06-08 18:42</span>
+                    </div>
+                </div>
+                <!-- 救援记录 -->
+                <div class="card">
+                    <div class="section-title">
+                        救援记录
+                    </div>
+                    <div class="detail-row">
+                        <span>补电方式</span>
+                        <span>直流快充</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>补电电量</span>
+                        <span>15.6 kWh</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>补电时长</span>
+                        <span>11分钟</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>恢复续航</span>
+                        <span>82公里</span>
+                    </div>
+                </div>
+                <!-- 费用 -->
+                <div class="card">
+                    <div class="section-title">
+                        费用明细
+                    </div>
+                    <div class="detail-row">
+                        <span>上门服务费</span>
+                        <span>¥39.00</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>补电服务费</span>
+                        <span>¥20.00</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>平台服务费</span>
+                        <span>¥10.00</span>
+                    </div>
+                    <div class="detail-row total">
+                        <span>实付金额</span>
+                        <span>¥69.00</span>
+                    </div>
+                </div>
+                <!-- 操作 -->
+                <div class="detail-btn-group">
+                    <div class="detail-btn">
+                        联系客服
+                    </div>
+                    <div class="detail-btn">
+                        再次救援
+                    </div>
+                    <div class="detail-btn primary">
+                        评价服务
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 功能四：【我的】 - 2 - 我的车辆 -->
+        <div class="page" id="page-vehicle">
+            <div class="sub-header">
+                <div class="return-back" onclick="showPage('mine')">
+                    ←
+                </div>
+                <div class="page-title">
+                    我的车辆
+                </div>
+            </div>
+            <div class="sub-content">
+                <!-- 车辆总览 -->
+                <div class="vehicle-banner">
+                    <div class="vehicle-banner-title">
+                        🚗 当前认证车辆
+                    </div>
+                    <div class="vehicle-banner-name">
+                        比亚迪汉EV
+                    </div>
+                    <div class="vehicle-banner-plate">
+                        粤B · A88888
+                    </div>
+                </div>
+                <!-- 车辆信息 -->
+                <div class="card">
+                    <div class="section-title">
+                        基础信息
+                    </div>
+                    <div class="detail-row">
+                        <span>品牌车型</span>
+                        <span>比亚迪汉EV</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>车牌号码</span>
+                        <span>粤B · A88888</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>车辆颜色</span>
+                        <span>极夜黑</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>车辆状态</span>
+                        <span style="color:#16A34A;">已认证</span>
+                    </div>
+                </div>
+                <!-- 电池信息 -->
+                <div class="card">
+                    <div class="section-title">
+                        电池状态
+                    </div>
+                    <div class="detail-row">
+                        <span>当前SOC</span>
+                        <span>82%</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>剩余续航</span>
+                        <span>520km</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>电池健康度</span>
+                        <span>96%</span>
+                    </div>
+                </div>
+                <!-- 服务数据 -->
+                <div class="card">
+                    <div class="section-title">
+                        服务数据
+                    </div>
+                    <div class="vehicle-stat-grid">
+                        <div>
+                            <strong>68</strong>
+                            <span>出行订单</span>
+                        </div>
+                        <div>
+                            <strong>5</strong>
+                            <span>救援次数</span>
+                        </div>
+                        <div>
+                            <strong>1280</strong>
+                            <span>积分</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 操作按钮 -->
+                <div class="vehicle-btn-group">
+                    <div class="vehicle-btn">
+                        编辑车辆
+                    </div>
+                    <div class="vehicle-btn">
+                        添加车辆
+                    </div>
+                    <div class="vehicle-btn primary">
+                        申请认证
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 功能四：【我的】 - 3 - 会员中心 -->
+        <div class="page" id="page-vip">
+            <div class="sub-header">
+                <div class="return-back" onclick="showPage('mine')">
+                    ←
+                </div>
+                <div class="page-title">
+                    会员中心
+                </div>
+            </div>
+            <div class="sub-content">
+                <!-- 当前会员 -->
+                <div class="vip-current-card">
+                    <div class="vip-current-top">
+                        <div>
+                            <div class="vip-level-tag">
+                                GOLD MEMBER
+                            </div>
+                            <div class="vip-current-name">
+                                👑 黄金会员
+                            </div>
+                        </div>
+                        <div class="vip-current-expire">
+                            有效期至<br>
+                            2027-06-30
+                        </div>
+                    </div>
+                    <div class="vip-current-bottom">
+                        <div class="vip-data-item">
+                            <strong>1280</strong>
+                            <span>成长值</span>
+                        </div>
+                        <div class="vip-data-item">
+                            <strong>594</strong>
+                            <span>累计节省(元)</span>
+                        </div>
+                        <div class="vip-data-item">
+                            <strong>68</strong>
+                            <span>出行订单</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 当前权益 -->
+                <div class="card">
+                    <div class="section-title">
+                        当前会员权益
+                    </div>
+                    <div class="vip-benefit-grid">
+                        <div class="vip-benefit">
+                            🔋<span>每月1次免费补电</span>
+                        </div>
+                        <div class="vip-benefit">
+                            🚛<span>拖车8折</span>
+                        </div>
+                        <div class="vip-benefit">
+                            🚘<span>优先派单</span>
+                        </div>
+                        <div class="vip-benefit">
+                            ☎️<span>专属客服</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 成长体系 -->
+                <div class="card">
+                    <div class="section-title">
+                        会员成长体系
+                    </div>
+                    <div class="vip-level-flow">
+                        <div class="level-node active">
+                            👑<br>黄金
+                        </div>
+                        <div class="level-line"></div>
+                        <div class="level-node">
+                            💎<br>铂金
+                        </div>
+                        <div class="level-line"></div>
+                        <div class="level-node">
+                            🖤<br>黑钻
+                        </div>
+                        <div class="level-line"></div>
+                        <div class="level-node">
+                            🏢<br>企业
+                        </div>
+                    </div>
+                </div>
+                <!-- 升级推荐 -->
+                <div class="section-title">
+                    推荐升级
+                </div>
+                <!-- 铂金会员 -->
+                <div class="vip-upgrade-card platinum">
+                    <div class="upgrade-title">
+                        💎 铂金会员
+                    </div>
+                    <div class="upgrade-price">
+                        ¥59/月
+                    </div>
+                    <div class="upgrade-desc">
+                        每月2次免费补电 · 拖车7折 · 优先救援
+                    </div>
+                </div>
+                <!-- 黑钻会员 -->
+                <div class="vip-upgrade-card black">
+                    <div class="upgrade-title">
+                        🖤 黑钻会员
+                    </div>
+                    <div class="upgrade-price">
+                        ¥99/月
+                    </div>
+                    <div class="upgrade-desc">
+                        无限救援折扣 · 机场接送权益 · 专属管家
+                    </div>
+                </div>
+                <!-- 企业会员 -->
+                <div class="vip-upgrade-card enterprise">
+                    <div class="upgrade-title">
+                        🏢 企业会员
+                    </div>
+                    <div class="upgrade-price">
+                        ¥999/月
+                    </div>
+                    <div class="upgrade-desc">
+                        企业车队管理 · 月结账单 · 专属运营经理
+                    </div>
+                </div>
+                <!-- 节省统计 -->
+                <div class="card">
+                    <div class="section-title">
+                        本年会员收益
+                    </div>
+                    <div class="vip-stat-grid">
+                        <div>
+                            <strong>¥368</strong>
+                            <span>补电优惠</span>
+                        </div>
+                        <div>
+                            <strong>¥226</strong>
+                            <span>救援优惠</span>
+                        </div>
+                        <div>
+                            <strong>¥594</strong>
+                            <span>累计节省</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="vehicle-btn-group">
+                    <div class="vehicle-btn">
+                        查看权益详情
+                    </div>
+                    <div class="vehicle-btn primary">
+                        立即升级会员
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 功能五：【底部导航栏】 -->
         <div class="bottom-nav">
-            <div class="nav-item active">
-                <div class="nav-icon">🏠</div>首页
+            <div class="nav-item active" data-nav="home" onclick="showPage('home')">
+                <div class="nav-icon">🏠</div>
+                <div>首页</div>
             </div>
-            <div class="nav-item">
-                <div class="nav-icon">🚘</div>出行
+            <div class="nav-item" data-nav="travel" onclick="showPage('travel')">
+                <div class="nav-icon">🚘</div>
+                <div>出行</div>
             </div>
-            <div class="nav-item">
-                <div class="nav-icon">🛟</div>救援
+            <div class="nav-item" data-nav="rescue" onclick="showPage('rescue')">
+                <div class="nav-icon">🛟</div>
+                <div>救援</div>
             </div>
-            <div class="nav-item">
-                <div class="nav-icon">👤</div>我的
+            <div class="nav-item" data-nav="mine" onclick="showPage('mine')">
+                <div class="nav-icon">👤</div>
+                <div>我的</div>
             </div>
         </div>
 
     </div>
+
+    <script>
+
+        function showPage(page) {
+            document
+                .querySelectorAll('.page')
+                .forEach(item => {
+                    item.classList.remove(
+                        'active-page'
+                    );
+                });
+
+            document
+                .getElementById(
+                    'page-' + page
+                )
+                .classList.add(
+                    'active-page'
+                );
+
+            updateNav(page);
+        }
+
+        function updateNav(page) {
+            document
+                .querySelectorAll('.nav-item')
+                .forEach(item => {
+                    item.classList.remove(
+                        'active'
+                    );
+                });
+
+            if (page === 'home') {
+                document
+                    .querySelector(
+                        '[data-nav="home"]'
+                    )
+                    .classList.add(
+                        'active'
+                    );
+            }
+
+            if (page === 'travel') {
+                document
+                    .querySelector(
+                        '[data-nav="travel"]'
+                    )
+                    .classList.add(
+                        'active'
+                    );
+            }
+
+            if (page === 'rescue') {
+                document
+                    .querySelector(
+                        '[data-nav="rescue"]'
+                    )
+                    .classList.add(
+                        'active'
+                    );
+            }
+
+            if (page === 'mine') {
+                document
+                    .querySelector(
+                        '[data-nav="mine"]'
+                    )
+                    .classList.add(
+                        'active'
+                    );
+            }
+
+        }
+
+    </script>
+
 </body>
 
 </html>
