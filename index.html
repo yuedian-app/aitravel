@@ -4158,81 +4158,49 @@
         </div>
 
     </div>
+<script>
 
-    <script>
-
-        function showPage(page) {
-            document
-                .querySelectorAll('.page')
-                .forEach(item => {
-                    item.classList.remove(
-                        'active-page'
-                    );
-                });
-
-            document
-                .getElementById(
-                    'page-' + page
-                )
-                .classList.add(
-                    'active-page'
-                );
-
-            updateNav(page);
+    function showPage(page) {
+        var pages =
+            document.querySelectorAll('.page');
+        for (var i = 0; i < pages.length; i++) {
+            pages[i].classList.remove(
+                'active-page'
+            );
         }
-
-        function updateNav(page) {
-            document
-                .querySelectorAll('.nav-item')
-                .forEach(item => {
-                    item.classList.remove(
-                        'active'
-                    );
-                });
-
-            if (page === 'home') {
-                document
-                    .querySelector(
-                        '[data-nav="home"]'
-                    )
-                    .classList.add(
-                        'active'
-                    );
-            }
-
-            if (page === 'travel') {
-                document
-                    .querySelector(
-                        '[data-nav="travel"]'
-                    )
-                    .classList.add(
-                        'active'
-                    );
-            }
-
-            if (page === 'rescue') {
-                document
-                    .querySelector(
-                        '[data-nav="rescue"]'
-                    )
-                    .classList.add(
-                        'active'
-                    );
-            }
-
-            if (page === 'mine') {
-                document
-                    .querySelector(
-                        '[data-nav="mine"]'
-                    )
-                    .classList.add(
-                        'active'
-                    );
-            }
-
+        var target =
+            document.getElementById(
+                'page-' + page
+            );
+        if (target) {
+            target.classList.add(
+                'active-page'
+            );
         }
+        updateNav(page);
+    }
 
-    </script>
+    function updateNav(page) {
+        var navs =
+            document.querySelectorAll(
+                '.nav-item'
+            );
+        for (var i = 0; i < navs.length; i++) {
+            navs[i].classList.remove(
+                'active'
+            );
+        }
+        var current =
+            document.querySelector(
+                '[data-nav="' + page + '"]'
+            );
+        if (current) {
+            current.classList.add(
+                'active'
+            );
+        }
+    }
+</script>
 
 </body>
 
