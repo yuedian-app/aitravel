@@ -34,7 +34,8 @@
         .page {
             display: none;
             min-height: 100vh;
-            padding-bottom: 80px;
+            /* padding-bottom: 80px; */
+            padding-bottom: calc(80px + env(safe-area-inset-bottom));
             background: #F5F7FB;
         }
 
@@ -47,7 +48,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 15px 2px;
+            padding: 0px 15px 0px;
         }
 
         .sub-header {
@@ -72,7 +73,15 @@
             justify-content: center;
         }
 
+        .logoimg {
+            object-fit: contain;
+            width: 80px;
+        }
+
         .location {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             font-size: 15px;
             font-weight: 700;
             color: #111827
@@ -92,6 +101,7 @@
         .ride-search {
             background: linear-gradient(100deg, #4f7fc4, #6fa4e6);
             color: #fff;
+            margin-top: 0px;
         }
 
         .ride-title {
@@ -242,21 +252,22 @@
 
         /* 底部导航 */
         .bottom-nav {
-            position: absolute;
-            left: 0;
-            right: 0;
+            position: fixed;
+            left: 50%;
+            transform: translateX(-50%);
             bottom: 0;
             width: 100%;
+            max-width: 430px;
             height: 60px;
+            z-index: 9999;
             display: flex;
-            z-index: 999;
             padding-bottom: env(safe-area-inset-bottom);
-            background: rgba(255, 255, 255, .88);
+            background: rgba(255, 255, 255, .96);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255, 255, 255, .5);
+            border-top: 1px solid #E5E7EB;
             box-shadow:
-                0 -1px 12px rgba(0, 0, 0, .04);
+                0 -4px 20px rgba(0, 0, 0, .06);
         }
 
         .nav-item {
@@ -271,7 +282,8 @@
         }
 
         .nav-item.active {
-            color: #1677FF;
+            color: #16A34A;
+            font-weight: 600;
         }
 
         .nav-icon {
@@ -324,8 +336,10 @@
 
         .location-card {
             background: #f8fafc;
+            border: 1px solid #e8ecef;
             border-radius: 16px;
             padding: 12px;
+            margin-bottom: 12px;
         }
 
         .location-item {
@@ -714,7 +728,6 @@
         }
 
         /* 救援首页 */
-
         .rescue-hero {
             background:
                 linear-gradient(135deg,
@@ -1767,135 +1780,403 @@
             cursor: pointer;
         }
 
-        /* 服务网络 */
-        .service-network-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
+        /* 聚合平台 */
+        .platform-banner {
+            background: #fff;
+            margin: 14px;
+            padding: 16px;
+            border-radius: 18px;
         }
 
-        .network-count {
-            font-size: 12px;
-            color: #1677FF;
+        .platform-title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #111827;
+        }
+
+        .platform-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .platform-item {
+            background: #F1F5F9;
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 13px;
             font-weight: 600;
         }
 
-        .service-vehicle {
-            padding: 12px 0;
+        /* 聚合报价 */
+        .quote-list {
+            margin-top: 18px;
+        }
+
+        .quote-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
             border-bottom: 1px solid #F1F5F9;
         }
 
-        .service-vehicle:last-of-type {
+        .quote-item:last-child {
             border-bottom: none;
         }
 
-        .vehicle-top {
+        .quote-item.active {
+            background: #EAF3FF;
+            border-radius: 12px;
+            padding: 14px;
+        }
+
+        .quote-left {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
         }
 
-        .vehicle-status {
+        .quote-platform {
+            font-size: 15px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .quote-desc {
+            margin-top: 4px;
             font-size: 12px;
-            font-weight: 600;
-        }
-
-        .vehicle-status.online {
-            color: #16A34A;
-        }
-
-        .vehicle-status.busy {
-            color: #F59E0B;
-        }
-
-        .vehicle-distance {
-            margin-top: 6px;
-            font-size: 13px;
             color: #64748B;
         }
 
-        .network-more {
-            text-align: center;
-            margin-top: 12px;
-            font-size: 13px;
-            color: #1677FF;
-            font-weight: 600;
+        .quote-price {
+            text-align: right;
         }
 
-        /* 服务车辆 */
-        .network-banner {
+        .quote-price strong {
+            display: block;
+            font-size: 20px;
+            color: #1677FF;
+        }
+
+        .quote-price span {
+            font-size: 12px;
+            color: #64748B;
+        }
+
+        .compare-banner {
+            margin-top: 16px;
+            background: #EAF3FF;
+            border-radius: 14px;
+            padding: 14px;
+            color: #1677FF;
+            font-size: 13px;
+        }
+
+        .platform-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px;
+            border: 1px solid #E5E7EB;
+            border-radius: 14px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            background: #ffffff;
+        }
+
+        .platform-option.active {
+            border: 2px solid #16A34A;
+            background: #F0FDF4;
+        }
+
+        .platform-left {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .platform-name {
+            font-weight: 700;
+        }
+
+        .platform-meta {
+            font-size: 12px;
+            color: #64748B;
+            margin-top: 4px;
+        }
+
+        .platform-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #16A34A;
+        }
+
+        .preference-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .preference-item {
+            padding: 12px;
+            text-align: center;
+            background: #F8FAFC;
+            border-radius: 12px;
+            font-size: 13px;
+        }
+
+        .selected-card {
+            position: relative;
             background:
                 linear-gradient(135deg,
-                    #2563EB,
-                    #3B82F6);
+                    #0F172A,
+                    #14532D);
             color: #fff;
-            border-radius: 24px;
-            padding: 24px;
-            margin-bottom: 16px;
-        }
-
-        .network-title {
-            font-size: 15px;
-        }
-
-        .network-number {
-            font-size: 42px;
-            font-weight: 700;
-            margin-top: 8px;
-        }
-
-        .network-desc {
-            font-size: 13px;
-            opacity: .9;
-        }
-
-        .vehicle-network-card {
-            background: #fff;
             border-radius: 20px;
+            padding: 18px;
+            overflow: hidden;
+            box-shadow:
+                0 10px 30px rgba(22, 163, 74, .18);
+        }
+
+        .selected-card::before {
+            content: '';
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            right: -50px;
+            top: -50px;
+            border-radius: 50%;
+            background:
+                rgba(255, 255, 255, .08);
+        }
+
+        .selected-card::after {
+            content: '';
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            left: -20px;
+            bottom: -20px;
+            border-radius: 50%;
+            background:
+                rgba(34, 197, 94, .12);
+        }
+
+        .selected-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: .5px;
+        }
+
+        .selected-kpi {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 16px;
+        }
+
+        .selected-kpi strong {
+            display: block;
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        .selected-kpi span {
+            font-size: 12px;
+            opacity: .8;
+        }
+
+        .recommend-card {
+            background: #EFF6FF;
+            border: 1px solid #BFDBFE;
+            border-radius: 18px;
             padding: 16px;
             margin-bottom: 12px;
         }
 
-        .vehicle-network-top {
+        .recommend-title {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 17px;
+            font-weight: 700;
+            color: #1D4ED8;
+            margin-bottom: 14px;
+        }
+
+        .preference-card {
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 18px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .selected-card {
+            position: relative;
+            background:
+                linear-gradient(135deg,
+                    #0F172A,
+                    #14532D);
+            color: #fff;
+            border-radius: 22px;
+            padding: 18px;
+            overflow: hidden;
+            margin-top: 0;
+            box-shadow:
+                0 12px 30px rgba(22, 163, 74, .18);
+        }
+
+        .selected-card::before {
+            content: '';
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            right: -50px;
+            top: -50px;
+            border-radius: 50%;
+            background:
+                rgba(255, 255, 255, .08);
+        }
+
+        .selected-card::after {
+            content: '';
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            left: -20px;
+            bottom: -20px;
+            border-radius: 50%;
+            background:
+                rgba(34, 197, 94, .12);
+        }
+
+        .selected-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            letter-spacing: .5px;
+        }
+
+        .selected-kpi {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 16px;
+        }
+
+        .selected-kpi strong {
+            display: block;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .selected-kpi span {
+            display: block;
+            margin-top: 4px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, .75);
+        }
+
+        .selected-reason {
+            margin-top: 14px;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .platform-card {
+            background: #FFFFFF;
+            border: 1px solid #E5E7EB;
+            border-radius: 18px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .platform-card-title {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 17px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 12px;
+        }
+
+        .preference-card {
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 18px;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+        }
+
+        .preference-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .preference-tag {
+            padding: 6px 12px;
+            background: #fff;
+            border: 1px solid #E2E8F0;
+            border-radius: 999px;
+            font-size: 12px;
+            color: #475569;
+        }
+
+        /* 附近可呼叫车辆 */
+        .nearby-car-list {
+            margin-top: 8px;
+        }
+
+        .nearby-car-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #F1F5F9;
+            cursor: pointer;
         }
 
-        .vehicle-network-name {
-            font-size: 16px;
-            font-weight: 700;
+        .nearby-car-item:last-child {
+            border-bottom: none;
         }
 
-        .network-distance {
-            margin-top: 8px;
+        .nearby-car-left {
+            flex: 1;
+        }
+
+        .nearby-car-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .nearby-car-meta {
+            margin-top: 4px;
+            font-size: 12px;
             color: #64748B;
-            font-size: 13px;
         }
 
-        .network-arrive {
-            margin-top: 8px;
-            color: #0F766E;
+        .nearby-car-right {
             font-size: 13px;
             font-weight: 600;
-        }
-
-        .network-status {
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .network-status.online {
             color: #16A34A;
+            white-space: nowrap;
         }
 
-        .network-status.busy {
-            color: #F59E0B;
-        }
-
-        .network-status.standby {
-            color: #1677FF;
+        .view-all-cars {
+            text-align: center;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px dashed #E2E8F0;
+            color: #6c6e74;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -1907,7 +2188,7 @@
         <div class="page active-page" id="page-home">
             <!-- 页眉定位及消息 -->
             <div class="header">
-                <div class="location">📍 深圳 ▼</div>
+                <div class="location"><img src="img/logo.png" class="logoimg">📍 深圳 ▼</div>
                 <div class="notice">🔔</div>
             </div>
             <!-- 网约出行 -->
@@ -1925,7 +2206,7 @@
             <div class="card rescue-card" onclick="showPage('rescue')">
                 <div>
                     <div class="rescue-title">🛟 一键救援</div>
-                    <div class="rescue-desc">移动补电 · 拖车救援 · 换胎服务</div>
+                    <div class="rescue-desc">移动补电 · 故障救援 · 拖车救援</div>
                 </div>
                 <div class="call-btn">呼叫</div>
             </div>
@@ -1953,84 +2234,67 @@
                     </div>
                 </div>
             </div>
-            <!-- 最近可服务车辆 -->
+            <!-- 附近可呼叫车辆 -->
             <div class="card">
-                <div class="service-network-header">
-                    <div class="section-title">
-                        附近服务车辆
+                <div class="section-title">
+                    附近可呼叫车辆
+                </div>
+                <div class="nearby-car-list">
+                    <div class="nearby-car-item" onclick="showPage('travel')">
+                        <div class="nearby-car-left">
+                            <div class="nearby-car-name">
+                                🚖 滴滴快车
+                            </div>
+                            <div class="nearby-car-meta">
+                                距您 800m
+                            </div>
+                        </div>
+                        <div class="nearby-car-right">
+                            3分钟接驾
+                        </div>
                     </div>
-                    <div class="network-count">
-                        在线128台
+                    <div class="nearby-car-item" onclick="showPage('travel')">
+                        <div class="nearby-car-left">
+                            <div class="nearby-car-name">
+                                🚘 T3快享
+                            </div>
+                            <div class="nearby-car-meta">
+                                距您 1.2km
+                            </div>
+                        </div>
+                        <div class="nearby-car-right">
+                            4分钟接驾
+                        </div>
+                    </div>
+                    <div class="nearby-car-item" onclick="showPage('travel')">
+                        <div class="nearby-car-left">
+                            <div class="nearby-car-name">
+                                🚗 曹操专车
+                            </div>
+                            <div class="nearby-car-meta">
+                                距您 1.8km
+                            </div>
+                        </div>
+                        <div class="nearby-car-right">
+                            5分钟接驾
+                        </div>
+                    </div>
+                    <div class="nearby-car-item" onclick="showPage('travel')">
+                        <div class="nearby-car-left">
+                            <div class="nearby-car-name">
+                                🚕 首汽优享
+                            </div>
+                            <div class="nearby-car-meta">
+                                距您 2.5km
+                            </div>
+                        </div>
+                        <div class="nearby-car-right">
+                            6分钟接驾
+                        </div>
                     </div>
                 </div>
-                <!-- 车辆1 -->
-                <div class="service-vehicle">
-                    <div class="vehicle-top">
-                        <div class="vehicle-name">
-                            🚘 A01约电出行能源服务车
-                        </div>
-                        <div class="vehicle-status online">
-                            ● 在线
-                        </div>
-                    </div>
-                    <div class="vehicle-distance">
-                        距您1.2km
-                    </div>
-                    <div class="tags">
-                        <span>出行载客</span>
-                        <span>应急补电</span>
-                        <span>道路救援</span>
-                    </div>
-                    <div class="arrive">
-                        预计3分钟到达
-                    </div>
-                </div>
-                <!-- 车辆2 -->
-                <div class="service-vehicle">
-                    <div class="vehicle-top">
-                        <div class="vehicle-name">
-                            🚘 A08约电出行能源服务车
-                        </div>
-                        <div class="vehicle-status online">
-                            ● 在线
-                        </div>
-                    </div>
-                    <div class="vehicle-distance">
-                        距您2.8km
-                    </div>
-                    <div class="tags">
-                        <span>出行载客</span>
-                        <span>应急补电</span>
-                        <span>道路救援</span>
-                    </div>
-                    <div class="arrive">
-                        预计5分钟到达
-                    </div>
-                </div>
-                <!-- 车辆3 -->
-                <div class="service-vehicle">
-                    <div class="vehicle-top">
-                        <div class="vehicle-name">
-                            🚚 A15约电出行能源服务车
-                        </div>
-                        <div class="vehicle-status busy">
-                            ● 服务中
-                        </div>
-                    </div>
-                    <div class="vehicle-distance">
-                        距您4.6km
-                    </div>
-                    <div class="tags">
-                        <span>出行载客</span>
-                        <span>应急补电</span>
-                        <span>道路救援</span>
-                    </div>
-                    <div class="arrive">
-                        预计10分钟可调度
-                    </div>
-                </div>
-                <div class="network-more" onclick="showPage('service-network')">
-                    查看附近服务车辆 >
+                <div class="view-all-cars" onclick="showPage('travel')">
+                    查看全部 >
                 </div>
             </div>
             <!-- 平台运营数据 -->
@@ -2067,129 +2331,15 @@
             </div>
         </div>
 
-        <!-- 功能一：【首页】 - 1 - 服务车辆 -->
-        <div class="page" id="page-service-network">
-            <div class="sub-header">
-                <div class="return-back" onclick="showPage('home')">
-                    ←
-                </div>
-                <div class="page-title">
-                    附近服务车辆
-                </div>
-            </div>
-            <div class="sub-content">
-                <!-- 顶部统计 -->
-                <div class="network-banner">
-                    <div class="network-title">
-                        🚘 在线服务车辆
-                    </div>
-                    <div class="network-number">
-                        128
-                    </div>
-                    <div class="network-desc">
-                        当前深圳区域可调度车辆
-                    </div>
-                </div>
-                <!-- 车辆1 -->
-                <div class="vehicle-network-card">
-                    <div class="vehicle-network-top">
-                        <div class="vehicle-network-name">
-                            A01约电出行能源服务车
-                        </div>
-                        <div class="network-status online">
-                            在线
-                        </div>
-                    </div>
-                    <div class="network-distance">
-                        📍 距您1.2km
-                    </div>
-                    <div class="tags">
-                        <span>出行载客</span>
-                        <span>应急补电</span>
-                        <span>道路救援</span>
-                    </div>
-                    <div class="network-arrive">
-                        预计3分钟到达
-                    </div>
-                </div>
-                <!-- 车辆2 -->
-                <div class="vehicle-network-card">
-                    <div class="vehicle-network-top">
-                        <div class="vehicle-network-name">
-                            A08约电出行能源服务车
-                        </div>
-                        <div class="network-status online">
-                            在线
-                        </div>
-                    </div>
-                    <div class="network-distance">
-                        📍 距您2.8km
-                    </div>
-                    <div class="tags">
-                        <span>出行载客</span>
-                        <span>应急补电</span>
-                        <span>道路救援</span>
-                    </div>
-                    <div class="network-arrive">
-                        预计5分钟到达
-                    </div>
-                </div>
-                <!-- 车辆3 -->
-                <div class="vehicle-network-card">
-                    <div class="vehicle-network-top">
-                        <div class="vehicle-network-name">
-                            A15约电出行能源服务车
-                        </div>
-                        <div class="network-status busy">
-                            服务中
-                        </div>
-                    </div>
-                    <div class="network-distance">
-                        📍 距您4.6km
-                    </div>
-                    <div class="tags">
-                        <span>出行载客</span>
-                        <span>应急补电</span>
-                        <span>道路救援</span>
-                    </div>
-                    <div class="network-arrive">
-                        预计10分钟可调度
-                    </div>
-                </div>
-                <!-- 车辆4 -->
-                <div class="vehicle-network-card">
-                    <div class="vehicle-network-top">
-                        <div class="vehicle-network-name">
-                            A23约电出行能源服务车
-                        </div>
-                        <div class="network-status standby">
-                            待命
-                        </div>
-                    </div>
-                    <div class="network-distance">
-                        📍 距您5.3km
-                    </div>
-                    <div class="tags">
-                        <span>出行载客</span>
-                        <span>应急补电</span>
-                        <span>道路救援</span>
-                    </div>
-                    <div class="network-arrive">
-                        预计8分钟到达
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- 功能二：【出行】首页 -->
         <div class="page" id="page-travel">
-            <!-- 顶部 -->
+            <!-- 页面标题 -->
             <div class="sub-header">
                 <div class="page-title">
                     预约出行
                 </div>
             </div>
-            <!-- 地图区域 -->
+            <!-- 地图 -->
             <div class="travel-map">
                 <div class="map-tip">
                     📍 当前定位：深圳南山区科技园
@@ -2197,6 +2347,7 @@
             </div>
             <!-- 下单面板 -->
             <div class="travel-panel">
+                <!-- 起止地点 -->
                 <div class="location-card">
                     <div class="location-item">
                         <span class="dot-start"></span>
@@ -2211,52 +2362,142 @@
                         </span>
                     </div>
                 </div>
-                <!-- 车型 -->
-                <div class="car-type-list">
-                    <div class="car-type-item active">
-                        <div>
-                            🚘 快车
-                            <div class="car-desc">
-                                经济实惠 · 最快接驾
+                <!-- 推荐方案 -->
+                <div class="recommend-card">
+                    <div class="recommend-title">
+                        🚖 智能推荐方案
+                    </div>
+                    <div class="platform-option active" onclick="selectPlatform('滴滴出行','滴滴快车',18,3)">
+                        <div class="platform-left">
+                            <div class="platform-name">
+                                滴滴快车
+                            </div>
+                            <div class="platform-meta">
+                                距您 800m · 预计3分钟接驾
+                                <br>
+                                综合价格、接驾速度、评分最优
                             </div>
                         </div>
-                        <div class="car-price">
+                        <div class="platform-price">
                             ¥18
                         </div>
                     </div>
-                    <div class="car-type-item">
-                        <div>
-                            🚖 专车
-                            <div class="car-desc">
-                                舒适车型
+                    <div class="selected-reason">
+                        已综合价格、接驾时长、用户评分、车辆供给等因素进行智能决策。当前方案优于87%的可选订单。
+                    </div>
+                </div>
+                <!-- 更多可选平台 -->
+                <div class="platform-card">
+                    <div class="platform-card-title">
+                        🚘 更多可选平台
+                    </div>
+                    <!-- T3 -->
+                    <div class="platform-option" onclick="selectPlatform('T3出行','T3快享',19,4)">
+                        <div class="platform-left">
+                            <div class="platform-name">
+                                T3快享
+                            </div>
+                            <div class="platform-meta">
+                                距您 1.2km · 预计4分钟接驾
                             </div>
                         </div>
-                        <div class="car-price">
-                            ¥32
+                        <div class="platform-price">
+                            ¥19
                         </div>
                     </div>
-                    <div class="car-type-item">
-                        <div>
-                            🚐 商务车
-                            <div class="car-desc">
-                                适合多人出行
+                    <!-- 哈啰 -->
+                    <div class="platform-option" onclick="selectPlatform('哈啰出行','哈啰快车',20,5)">
+                        <div class="platform-left">
+                            <div class="platform-name">
+                                哈啰快车
+                            </div>
+                            <div class="platform-meta">
+                                距您 1.4km · 预计5分钟接驾
                             </div>
                         </div>
-                        <div class="car-price">
-                            ¥56
+                        <div class="platform-price">
+                            ¥20
+                        </div>
+                    </div>
+                    <!-- 曹操 -->
+                    <div class="platform-option" onclick="selectPlatform('曹操出行','曹操专车',23,5)">
+                        <div class="platform-left">
+                            <div class="platform-name">
+                                曹操专车
+                            </div>
+                            <div class="platform-meta">
+                                距您 1.8km · 预计5分钟接驾
+                            </div>
+                        </div>
+                        <div class="platform-price">
+                            ¥23
+                        </div>
+                    </div>
+                    <!-- 首汽 -->
+                    <div class="platform-option" onclick="selectPlatform('首汽约车','首汽优享',25,6)">
+                        <div class="platform-left">
+                            <div class="platform-name">
+                                首汽优享
+                            </div>
+                            <div class="platform-meta">
+                                距您 2.5km · 预计6分钟接驾
+                            </div>
+                        </div>
+                        <div class="platform-price">
+                            ¥25
                         </div>
                     </div>
                 </div>
-                <!-- 特色功能 -->
-                <div class="energy-card">
-                    🌱 新能源专车
-                    <span>
-                        碳积分奖励
-                    </span>
+                <!-- 出行偏好 -->
+                <div class="preference-card">
+                    <div class="section-title">
+                        ⚙️ 出行偏好
+                    </div>
+                    <div class="preference-tags">
+                        <div class="preference-tag">
+                            💰 最低价格
+                        </div>
+                        <div class="preference-tag">
+                            ⚡ 最快接驾
+                        </div>
+                        <div class="preference-tag">
+                            ⭐ 指定平台
+                        </div>
+                        <div class="preference-tag">
+                            🔋 新能源车优先
+                        </div>
+                    </div>
                 </div>
-                <!-- 呼叫按钮 -->
+                <!-- 当前选择 -->
+                <div class="selected-card">
+                    <div class="selected-title">
+                        🎯 我当前选择的出行方案：
+                    </div>
+                    <div id="selected-platform" style="font-size:20px;font-weight:700;">
+                        滴滴快车
+                    </div>
+                    <div class="selected-kpi">
+                        <div>
+                            <strong id="selected-price">
+                                ¥18
+                            </strong>
+                            <span>
+                                预计费用
+                            </span>
+                        </div>
+                        <div>
+                            <strong id="selected-eta">
+                                3分钟
+                            </strong>
+                            <span>
+                                预计接驾
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 呼叫 -->
                 <div class="call-car-btn" onclick="showPage('wait')">
-                    立即呼叫车辆
+                    一键呼叫最优车辆
                 </div>
             </div>
         </div>
@@ -2272,19 +2513,61 @@
                 </div>
             </div>
             <div class="sub-content">
-                <!-- 匹配状态 -->
+                <!-- 状态 -->
                 <div class="wait-status-card">
                     <div class="wait-icon">
-                        🔍
+                        🚖
                     </div>
                     <div class="wait-title">
-                        正在为您匹配约电出行能源服务车辆
+                        正在全网比价并匹配车辆
                     </div>
                     <div class="wait-desc">
-                        预计10秒内完成匹配
+                        已同步请求滴滴、T3、曹操、首汽、哈啰
                     </div>
                 </div>
-                <!-- 订单信息 -->
+                <!-- 比价状态 -->
+                <div class="card">
+                    <div class="section-title">
+                        平台报价对比情况
+                    </div>
+                    <div class="nearby-item">
+                        🚖 滴滴出行
+                        <span>¥18</span>
+                    </div>
+                    <div class="nearby-item">
+                        🚘 T3出行
+                        <span>¥19</span>
+                    </div>
+                    <div class="nearby-item">
+                        🚗 曹操出行
+                        <span>¥23</span>
+                    </div>
+                    <div class="nearby-item">
+                        🚕 首汽约车
+                        <span>¥25</span>
+                    </div>
+                    <div class="nearby-item">
+                        🛵 哈啰出行
+                        <span>¥20</span>
+                    </div>
+                </div>
+                <!-- 推荐方案 -->
+                <div class="energy-match-card">
+                    <div class="energy-title">
+                        🎯 智能推荐方案
+                    </div>
+                    <div style="line-height:28px;">
+                        推荐平台：
+                        <strong>滴滴快车</strong>
+                        <br>
+                        预计接驾：3分钟
+                        <br>
+                        预计费用：¥18
+                        <br>
+                        相比最高报价节省：¥7
+                    </div>
+                </div>
+                <!-- 本次行程 -->
                 <div class="card">
                     <div class="section-title">
                         本次行程
@@ -2299,42 +2582,29 @@
                     </div>
                     <div class="trip-price">
                         预计费用
-                        <strong>¥18</strong>
+                        <strong>
+                            ¥18
+                        </strong>
                     </div>
                 </div>
-                <!-- 附近车辆 -->
+                <!-- 平台优势 -->
                 <div class="card">
                     <div class="section-title">
-                        附近可服务车辆
+                        本次为您节省
                     </div>
-                    <div class="nearby-item">
-                        🚘 A01约电出行能源服务车
-                        <span>0.8km</span>
-                    </div>
-                    <div class="nearby-item">
-                        🚘 A08约电出行能源服务车
-                        <span>1.2km</span>
-                    </div>
-                    <div class="nearby-item">
-                        🚘 A15约电出行能源服务车
-                        <span>1.7km</span>
+                    <div style="text-align:center;padding:10px 0;">
+                        <div style="font-size:36px;color:#16A34A;font-weight:700;">
+                            ¥7
+                        </div>
+                        <div style="color:#64748B;margin-top:6px;">
+                            来自约电出行智能聚合比价
+                        </div>
                     </div>
                 </div>
-                <!-- 特色展示 -->
-                <div class="energy-match-card">
-                    <div class="energy-title">
-                        ⚡ 优先匹配新约电出行能源服务车
-                    </div>
-                    <div class="energy-tags">
-                        <span>出行</span>
-                        <span>补电</span>
-                        <span>救援</span>
-                    </div>
-                </div>
-                <!-- 按钮 -->
+                <!-- 操作 -->
                 <div class="wait-btn-group">
                     <div class="simulate-btn" onclick="showPage('driver')">
-                        模拟司机接单
+                        模拟平台接单
                     </div>
                     <div class="cancel-btn" onclick="showPage('travel')">
                         取消订单
@@ -2350,20 +2620,42 @@
                     ←
                 </div>
                 <div class="page-title">
-                    司机已接单
+                    平台已接单
                 </div>
             </div>
             <div class="sub-content">
-                <!-- 车辆状态 -->
+                <!-- 接单状态 -->
                 <div class="driver-status-card">
                     <div class="driver-car-icon">
-                        🚘
+                        🚖
                     </div>
                     <div class="driver-status-title">
-                        A01约电出行能源服务车正在前往接您
+                        滴滴快车已成功接单
                     </div>
                     <div class="driver-arrive-time">
                         预计 3 分钟到达
+                    </div>
+                </div>
+                <!-- 平台信息 -->
+                <div class="card">
+                    <div class="section-title">
+                        订单来源平台
+                    </div>
+                    <div class="driver-info">
+                        <div class="driver-avatar">
+                            🚖
+                        </div>
+                        <div>
+                            <div class="driver-name">
+                                滴滴出行
+                            </div>
+                            <div class="driver-rating">
+                                聚合平台智能推荐
+                            </div>
+                        </div>
+                    </div>
+                    <div class="plate-number">
+                        DD202606140001
                     </div>
                 </div>
                 <!-- 司机信息 -->
@@ -2375,7 +2667,7 @@
                         <div class="driver-avatar">
                             👨
                         </div>
-                        <div class="driver-detail">
+                        <div>
                             <div class="driver-name">
                                 张师傅
                             </div>
@@ -2388,18 +2680,54 @@
                         粤B · A88888
                     </div>
                 </div>
-                <!-- 服务能力 -->
+                <!-- 车辆信息 -->
                 <div class="card">
                     <div class="section-title">
-                        服务能力
+                        接驾车辆
                     </div>
                     <div class="ability-tags">
-                        <span>🚘 出行服务</span>
-                        <span>🔋 移动补电</span>
-                        <span>🛟 道路救援</span>
+                        <span>🚘 比亚迪秦PLUS EV</span>
+                        <span>🔋 新能源车辆</span>
+                        <span>🌱 绿色出行</span>
+                        <span>❄️ 空调开放</span>
                     </div>
                 </div>
-                <!-- 联系 -->
+                <!-- 行程信息 -->
+                <div class="card">
+                    <div class="section-title">
+                        本次行程
+                    </div>
+                    <div class="trip-info">
+                        <div>
+                            📍 深圳湾科技生态园
+                        </div>
+                        <div>
+                            🎯 腾讯滨海大厦
+                        </div>
+                    </div>
+                    <div class="trip-price">
+                        预计费用
+                        <strong>
+                            ¥18
+                        </strong>
+                    </div>
+                </div>
+                <!-- 聚合价值 -->
+                <div class="energy-match-card">
+                    <div class="energy-title">
+                        🎯 约电出行聚合平台节省费用
+                    </div>
+                    <div style="line-height:28px;">
+                        推荐平台：滴滴快车
+                        <br>
+                        当前费用：¥18
+                        <br>
+                        市场最高报价：¥25
+                        <br>
+                        本次节省：¥7
+                    </div>
+                </div>
+                <!-- 联系方式 -->
                 <div class="contact-grid">
                     <div class="contact-btn">
                         📞 联系司机
@@ -2410,7 +2738,7 @@
                 </div>
                 <!-- 温馨提示 -->
                 <div class="tips-card">
-                    请保持电话畅通，司机到达后将第一时间联系您。
+                    您通过约电出行下单，实际服务由滴滴出行司机提供，如有问题可联系约电出行客服统一处理。
                 </div>
                 <!-- 操作按钮 -->
                 <div class="wait-btn-group">
@@ -2435,17 +2763,41 @@
                 </div>
             </div>
             <div class="sub-content">
+                <!-- 状态 -->
                 <div class="trip-status-card">
                     <div class="trip-car-icon">
-                        🚘
+                        🚖
                     </div>
                     <div class="trip-status-title">
                         已接到乘客
                     </div>
                     <div class="trip-status-desc">
-                        正在前往目的地
+                        滴滴快车正在前往目的地
                     </div>
                 </div>
+                <!-- 平台信息 -->
+                <div class="card">
+                    <div class="section-title">
+                        订单来源平台
+                    </div>
+                    <div class="driver-info">
+                        <div class="driver-avatar">
+                            🚖
+                        </div>
+                        <div>
+                            <div class="driver-name">
+                                滴滴出行
+                            </div>
+                            <div class="driver-rating">
+                                约电聚合平台智能推荐
+                            </div>
+                        </div>
+                    </div>
+                    <div class="plate-number">
+                        DD202606140001
+                    </div>
+                </div>
+                <!-- 司机车辆 -->
                 <div class="card">
                     <div class="section-title">
                         当前车辆
@@ -2454,7 +2806,7 @@
                         <div class="driver-avatar">
                             👨
                         </div>
-                        <div class="driver-detail">
+                        <div>
                             <div class="driver-name">
                                 张师傅
                             </div>
@@ -2464,15 +2816,21 @@
                         </div>
                     </div>
                 </div>
+                <!-- 行程路线 -->
                 <div class="card">
                     <div class="section-title">
                         本次行程
                     </div>
                     <div class="trip-route">
-                        <div>📍 深圳湾科技生态园</div>
-                        <div>🎯 腾讯滨海大厦</div>
+                        <div>
+                            📍 深圳湾科技生态园
+                        </div>
+                        <div>
+                            🎯 腾讯滨海大厦
+                        </div>
                     </div>
                 </div>
+                <!-- 实时状态 -->
                 <div class="card">
                     <div class="section-title">
                         实时状态
@@ -2492,76 +2850,160 @@
                         </div>
                     </div>
                 </div>
-                <div class="energy-match-card">
-                    <div class="energy-title">
-                        ⚡ 绿色出行贡献
-                    </div>
-                    <div>
-                        本次预计减少碳排放 0.8kg
-                    </div>
-                </div>
+                <!-- 到达 -->
                 <div class="simulate-btn" onclick="showPage('finish')">
                     模拟到达目的地
                 </div>
             </div>
         </div>
 
-        <!-- 功能二：【出行】 - 4 - 订单完成 -->
+        <!-- 功能二：【出行】 - 4 - 行程完成 -->
         <div class="page" id="page-finish">
             <div class="sub-header">
                 <div class="page-title">
-                    行程完成
+                    行程已完成
                 </div>
             </div>
             <div class="sub-content">
-                <div class="finish-card">
+                <!-- 完成状态 -->
+                <div class="finish-success-card">
                     <div class="finish-icon">
-                        ✅
+                        🎉
                     </div>
                     <div class="finish-title">
-                        行程已完成
+                        感谢使用约电出行
                     </div>
-                    <div class="finish-price">
-                        ¥18
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="section-title">
-                        行程详情
-                    </div>
-                    <div class="trip-kpi">
-                        <div>
-                            <strong>10km</strong>
-                            <span>总里程</span>
-                        </div>
-                        <div>
-                            <strong>18分钟</strong>
-                            <span>总时长</span>
-                        </div>
-                        <div>
-                            <strong>¥18</strong>
-                            <span>订单金额</span>
-                        </div>
+                    <div class="finish-desc">
+                        本次订单已顺利完成
                     </div>
                 </div>
+                <!-- 订单信息 -->
                 <div class="card">
                     <div class="section-title">
-                        绿色出行贡献
+                        订单信息
                     </div>
-                    <div class="finish-carbon">
-                        ⚡ 减少碳排放 0.8kg
+                    <div class="nearby-item">
+                        来源平台
+                        <span>滴滴出行</span>
+                    </div>
+                    <div class="nearby-item">
+                        订单编号
+                        <span>DD202606140001</span>
+                    </div>
+                    <div class="nearby-item">
+                        行程距离
+                        <span>10.0 km</span>
+                    </div>
+                    <div class="nearby-item">
+                        行程时长
+                        <span>21分钟</span>
+                    </div>
+                    <div class="nearby-item">
+                        实际支付
+                        <span>¥18</span>
                     </div>
                 </div>
+                <!-- 节省金额 -->
                 <div class="card">
                     <div class="section-title">
-                        司机评价
+                        本次聚合比价成果
                     </div>
-                    <div class="rating-box">
+                    <div style="text-align:center;padding:15px 0;">
+                        <div style="font-size:48px;font-weight:700;color:#16A34A;">
+                            ¥7
+                        </div>
+                        <div style="color:#64748B;margin-top:8px;">
+                            本次节省金额
+                        </div>
+                    </div>
+                    <div class="nearby-item">
+                        实际成交价
+                        <span>¥18</span>
+                    </div>
+                    <div class="nearby-item">
+                        市场最高报价
+                        <span>¥25</span>
+                    </div>
+                </div>
+                <!-- 奖励中心 -->
+                <div class="card">
+                    <div class="section-title">
+                        本次获得奖励
+                    </div>
+                    <div class="nearby-item">
+                        🎁 出行积分
+                        <span>+18</span>
+                    </div>
+                    <div class="nearby-item">
+                        🌱 碳积分
+                        <span>+8</span>
+                    </div>
+                    <div class="nearby-item">
+                        🎫 优惠券返还
+                        <span>¥2</span>
+                    </div>
+                    <div class="nearby-item">
+                        🏆 会员成长值
+                        <span>+10</span>
+                    </div>
+                </div>
+                <!-- 绿色出行 -->
+                <div class="energy-match-card">
+                    <div class="energy-title">
+                        🌱 绿色出行贡献
+                    </div>
+                    <div style="line-height:28px;">
+                        减少碳排放：0.8kg
+                        <br>
+                        累计碳积分：1,286
+                        <br>
+                        累计绿色出行：126次
+                    </div>
+                </div>
+                <!-- 累计价值 -->
+                <div class="card">
+                    <div class="section-title">
+                        约电累计为您创造价值
+                    </div>
+                    <div style="padding:12px 0;">
+                        <div class="nearby-item">
+                            💰 累计节省金额
+                            <span>¥386</span>
+                        </div>
+                        <div class="nearby-item">
+                            🎁 累计获得积分
+                            <span>5,620</span>
+                        </div>
+                        <div class="nearby-item">
+                            🌱 累计碳积分
+                            <span>1,286</span>
+                        </div>
+                        <div class="nearby-item">
+                            🚖 累计出行次数
+                            <span>126次</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 司机评价 -->
+                <div class="card">
+                    <div class="section-title">
+                        服务评价
+                    </div>
+                    <div style="text-align:center;font-size:30px;padding:15px 0;">
                         ⭐⭐⭐⭐⭐
                     </div>
+                    <div style="text-align:center;color:#64748B;">
+                        张师傅 · 滴滴快车
+                    </div>
                 </div>
-                <div class="simulate-btn" onclick="showPage('home')">
-                    返回首页
+                <!-- 操作按钮 -->
+                <div class="wait-btn-group">
+                    <div class="simulate-btn" onclick="showPage('home')">
+                        返回首页
+                    </div>
+                    <div class="cancel-btn" onclick="showPage('travel')">
+                        再来一单
+                    </div>
                 </div>
             </div>
         </div>
@@ -2610,7 +3052,7 @@
                         <div class="service-item" onclick="showPage('rescue-order')">
                             <div class="service-icon">🛞</div>
                             <span>换胎服务</span>
-                        </div>                        
+                        </div>
                         <div class="service-item" onclick="showPage('rescue-order')">
                             <div class="service-icon">🔑</div>
                             <span>开锁服务</span>
@@ -4164,49 +4606,97 @@
         </div>
 
     </div>
-<script>
+    <script>
 
-    function showPage(page) {
-        var pages =
-            document.querySelectorAll('.page');
-        for (var i = 0; i < pages.length; i++) {
-            pages[i].classList.remove(
-                'active-page'
-            );
+        function showPage(page) {
+            var pages =
+                document.querySelectorAll('.page');
+            for (var i = 0; i < pages.length; i++) {
+                pages[i].classList.remove(
+                    'active-page'
+                );
+            }
+            var target =
+                document.getElementById(
+                    'page-' + page
+                );
+            if (target) {
+                target.classList.add(
+                    'active-page'
+                );
+            }
+            updateNav(page);
         }
-        var target =
+
+        function updateNav(page) {
+            var navs =
+                document.querySelectorAll(
+                    '.nav-item'
+                );
+            for (var i = 0; i < navs.length; i++) {
+                navs[i].classList.remove(
+                    'active'
+                );
+            }
+            var current =
+                document.querySelector(
+                    '[data-nav="' + page + '"]'
+                );
+            if (current) {
+                current.classList.add(
+                    'active'
+                );
+            }
+        }
+
+        let selectedPlatform = {
+            name: "滴滴快车",
+            platform: "滴滴出行",
+            price: 18,
+            eta: 3
+        };
+
+        function selectPlatform(
+            platform,
+            name,
+            price,
+            eta
+        ) {
+
+            selectedPlatform = {
+                platform,
+                name,
+                price,
+                eta
+            };
+
             document.getElementById(
-                'page-' + page
-            );
-        if (target) {
-            target.classList.add(
-                'active-page'
-            );
-        }
-        updateNav(page);
-    }
+                "selected-platform"
+            ).innerHTML = name;
 
-    function updateNav(page) {
-        var navs =
-            document.querySelectorAll(
-                '.nav-item'
-            );
-        for (var i = 0; i < navs.length; i++) {
-            navs[i].classList.remove(
-                'active'
+            document.getElementById(
+                "selected-price"
+            ).innerHTML = "¥" + price;
+
+            document.getElementById(
+                "selected-eta"
+            ).innerHTML = eta + "分钟";
+
+            document
+                .querySelectorAll(
+                    ".platform-option"
+                )
+                .forEach(item => {
+                    item.classList.remove(
+                        "active"
+                    );
+                });
+
+            event.currentTarget.classList.add(
+                "active"
             );
         }
-        var current =
-            document.querySelector(
-                '[data-nav="' + page + '"]'
-            );
-        if (current) {
-            current.classList.add(
-                'active'
-            );
-        }
-    }
-</script>
+    </script>
 
 </body>
 
